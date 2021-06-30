@@ -1,0 +1,28 @@
+.explore-page {
+  max-width: 80vw;
+  margin: 3rem auto;
+}
+.explore-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+.explore-post {
+  min-width: calc(33.3333% - 1rem);
+  margin: 0 1rem 1rem 0;
+}
+.explore-post img {
+  min-width: 100%;
+  min-height: 100%;
+}
+
+@media screen and (max-width: 767px) {
+  .explore-page {
+    max-width: 100vw;
+  }
+  .explore-container {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .explore-post {
+    margin: 0;
+  }
+}

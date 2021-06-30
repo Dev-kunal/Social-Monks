@@ -1,0 +1,10 @@
+export { Login } from "./login/Login";
+export { Signup } from "./login/Signup";
+export { Post } from "./post/Post";
+export { Navbar } from "./navbar/Navbar";
+export { Home } from "./home/Home";
+export { MobileNav } from "./navbar/MobileNav";
+export { Explore } from "./explore/Explore";
+export { User } from "./user/User";
+export { NewPost } from "./newpost/NewPost";
+export { Activiy } from "./activity/Activity";
