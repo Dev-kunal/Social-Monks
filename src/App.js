@@ -6,8 +6,12 @@ import {
   Navbar,
   Home,
   Explore,
-  User,
-  NewPost
+  Profile,
+  NewPost,
+  Search,
+  EditProfile,
+  Followers,
+  Following,
 } from "./components/index";
 import { Activity } from "./components/activity/Activity";
 export default function App() {
@@ -20,8 +24,12 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/explore" element={<Explore />} />
         <Route path="/activity" element={<Activity />} />
-        <Route path="/user" element={<User />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/newpost" element={<NewPost />} />
+        <Route path="/search" element={<Search />} />
+        <Route path="/editprofile" element={<EditProfile />} />
+        <Route path="/followers" element={<Followers />} />
+        <Route path="/following" element={<Following />} />
       </Routes>
     </div>
   );

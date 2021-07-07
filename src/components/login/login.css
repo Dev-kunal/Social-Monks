@@ -6,7 +6,7 @@
   height: 100vh;
 }
 
-.login {
+.form {
   border: 1px solid var(--borderColor);
   background-color: white;
   padding: 2rem;
@@ -17,6 +17,9 @@
   align-items: center;
   border-radius: 2px;
 }
+.form input {
+  font-family: inherit;
+}
 .brand-name {
   font-family: "Caveat", cursive;
   font-size: 1.5rem;
@@ -25,8 +28,8 @@
 .input-div {
   width: 16rem;
 }
-.input {
-  font-size: 1rem;
+.input-line {
+  font-size: 0.9rem;
   padding: 9px 0 7px 8px;
   outline: 0;
   width: 100%;
@@ -51,7 +54,7 @@
   border: 1px solid var(--borderColor);
   border-radius: 2px;
 }
-a {
+.login-page a {
   color: var(--primaryColor);
   font-weight: bold;
   text-decoration: none;
@@ -59,7 +62,7 @@ a {
 }
 
 @media only screen and (max-width: 767px) {
-  .login {
+  .form {
     max-width: 15rem;
   }
   .signup-div {

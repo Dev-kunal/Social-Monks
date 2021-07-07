@@ -1,0 +1,36 @@
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
+
+const initialState = {
+  status: "idle",
+  error: null,
+  searchedUsers: [],
+};
+
+export const getSearchedUsers = createAsyncThunk(
+  "seatch/users",
+  async (value) => {
+    const response = await axios.get("http://localhost:7000/user/search", {
+      headers: { searchTerm: value },
+    });
+    console.log(response.data);
+    return response.data;
+  }
+);
+
+export const searchSlice = createSlice({
+  name: "search",
+  reducers: {},
+  initialState,
+  extraReducers: {
+    [getSearchedUsers.pending]: (state) => {
+      state.status = "loading";
+    },
+    [getSearchedUsers.fulfilled]: (state, action) => {
+      state.searchedUsers = action.payload.users;
+      state.status = "fulfilled";
+    },
+  },
+});
+
+export default searchSlice.reducer;

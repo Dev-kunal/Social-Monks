@@ -39,12 +39,12 @@
   margin-top: 0.7rem;
   color: var(--error);
 }
-label input {
+.upload-label input {
   height: 0;
   width: 0;
   opacity: 0;
 }
-label {
+.upload-label {
   text-align: center;
   display: block;
   width: 2rem;
@@ -57,7 +57,12 @@ label {
   font-weight: bold;
   font-size: 1.5rem;
 }
-label:hover {
+.upload-label:hover {
   background: var(--primaryColor);
   color: white;
+}
+.progress-bar {
+  height: 0.3rem;
+  background: var(--primaryColor);
+  margin-top: 1.2rem;
 }

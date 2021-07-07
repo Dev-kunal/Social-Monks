@@ -1,17 +1,33 @@
 import "./explore.css";
 import { MobileNav } from "../index";
-
+import { useDispatch, useSelector } from "react-redux";
+import { getAllPosts } from "./exploreSlice";
+import { useEffect } from "react";
 export const Explore = () => {
+  const dispatch = useDispatch();
+  const { allPosts, status } = useSelector((state) => state.allPosts);
+  useEffect(() => {
+    if (status === "idle") {
+      dispatch(getAllPosts());
+    }
+  }, [status, dispatch]);
+
   return (
     <div className="explore-page">
       <MobileNav />
       <div className="explore-container">
+        {console.log(allPosts)}
+        {allPosts.map(({ fileurl }) => (
+          <div className="explore-post">
+            <img src={fileurl} width="100%" height="100%" alt="img-post" />
+          </div>
+        ))}
         <div className="explore-post">
           <img
             src="https://www.trawell.in/admin/images/upload/86351572Nane_Ghat.jpg"
             width="100%"
             height="100%"
-            alt="img-logo"
+            alt="img-post"
           />
         </div>
         <div className="explore-post">
@@ -22,14 +38,7 @@ export const Explore = () => {
             alt="img-logo"
           />
         </div>
-        <div className="explore-post">
-          <img
-            src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/1d736315-8f93-490c-927e-d2ae304f3a02/ddyky5k-e3af17ed-ed30-4ee1-96e8-fa0914bb4e86.jpg/v1/fill/w_1280,h_854,q_75,strp/malshej_ghat___needle_pin_by_agarwalsonika_ddyky5k-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9ODU0IiwicGF0aCI6IlwvZlwvMWQ3MzYzMTUtOGY5My00OTBjLTkyN2UtZDJhZTMwNGYzYTAyXC9kZHlreTVrLWUzYWYxN2VkLWVkMzAtNGVlMS05NmU4LWZhMDkxNGJiNGU4Ni5qcGciLCJ3aWR0aCI6Ijw9MTI4MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.jQ22xbQJznjmJzfFZaLOHJ7XsEVE59vr7uk0MULRpRs"
-            width="100%"
-            height="100%"
-            alt="img-logo"
-          />
-        </div>
+
         <div className="explore-post">
           <img
             src="https://images.thrillophilia.com/image/upload/s--0Yi6NMSn--/v1/images/photos/000/031/812/original/Kalsubai_7.jpg.jpg?1453311858"

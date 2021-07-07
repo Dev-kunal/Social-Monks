@@ -1,6 +1,4 @@
 .post {
-  /* border-top: 1px solid var(--borderColor);
-  border-bottom: 1px solid var(--borderColor); */
   padding: 0.4rem 0.1rem;
   max-width: 35rem;
   margin: 0 auto;
@@ -30,7 +28,15 @@
   line-height: 1.5rem;
 }
 .post-action-btn {
+  border: none;
   width: 1.3rem;
   height: 1.3rem;
   margin-right: 0.4rem;
+  background: transparent;
+}
+/* .post-action-btn i {
+  font-weight: 100;
+} */
+.post-action-btn .fas {
+  color: orange;
 }

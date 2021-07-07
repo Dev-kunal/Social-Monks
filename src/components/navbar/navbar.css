@@ -46,8 +46,27 @@
 .active img {
   border: 1px solid var(--primaryColor);
 }
+.top-nav {
+  display: none;
+}
+.desk-navbar {
+  display: none;
+}
 @media screen and (max-width: 767px) {
   .mobil-navbar {
     display: block;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .navbar-top {
+    justify-content: space-evenly;
+  }
+  .desk-navbar {
+    display: block;
+    min-width: 12rem;
+  }
+  .action-nav {
+    justify-content: space-evenly;
   }
 }

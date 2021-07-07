@@ -1,52 +1,47 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { MobileNav } from "../navbar/MobileNav";
+import { ProgressBar } from "./ProgressBar";
 import "./newpost.css";
 
 export const NewPost = () => {
   const [file, setFile] = useState(null);
   const [fileError, setFileError] = useState(null);
   const [caption, setCaption] = useState("");
-  const [status, setStatus] = useState("idle");
+  const [uploadedFileurl, setuploadedFileurl] = useState(null);
 
   const selectFile = (event) => {
-    const fileSelected = event.target.files[0];
-    const fileTypes = ["image/png", "image/jpeg"];
+    let selectedFile = event.target.files[0];
+    const allowFileTypes = ["image/png", "image/jpeg"];
 
-    if (fileSelected && fileTypes.includes(fileSelected.type)) {
-      setFile(fileSelected);
+    if (selectedFile && allowFileTypes.includes(selectedFile.type)) {
+      setFile(selectedFile);
       setFileError("");
     } else {
       setFile(null);
-      setFileError("select an image of type jpeg/png");
+      setFileError("Select an image file (png or jpg)");
     }
   };
 
-  const uploadPost = (event) => {
-    if (file) {
+  const uploadPost = () => {
+    if (uploadedFileurl) {
       console.log("submit");
-      const formData = new FormData();
-      formData.append("caption", caption);
-      formData.append("file-to-upload", file);
-      const config = {
-        headers: {
-          "content-type": "multipart/form-data"
-        }
+      const postData = {
+        caption: caption,
+        fileurl: uploadedFileurl,
       };
       (async () => {
         try {
-          setStatus("loading");
           console.log("calling...");
           const response = await axios.post(
-            "http://localhost:3000/post",
-            formData,
-            config
+            "http://localhost:7000/posts",
+            postData
           );
           console.log(response);
           if (response.data.success) {
             setFile(null);
-            setStatus("Uploaded ");
             setCaption("");
+            setuploadedFileurl(null);
           }
         } catch (error) {
           setFile(null);
@@ -57,36 +52,6 @@ export const NewPost = () => {
       setFileError("Please select an image");
     }
   };
-  // useEffect(() => {
-  //   if (file) {
-  //     const formData = new FormData();
-  //     formData.append("file-to-upload", file);
-  //     const config = {
-  //       headers: {
-  //         "content-type": "multipart/form-data"
-  //       }
-  //     };
-  //     (async () => {
-  //       try {
-  //         setStatus("loading");
-  //         console.log("calling...");
-  //         const response = await axios.post(
-  //           "https://social-media-server.kunaltijare.repl.co/post",
-  //           formData,
-  //           config
-  //         );
-  //         console.log(response);
-  //         if (response.data.success) {
-  //           setFile(null);
-  //           setStatus("Uploaded ");
-  //         }
-  //       } catch (error) {
-  //         setFile(null);
-  //         console.log(error);
-  //       }
-  //     })();
-  //   }
-  // }, [file, setFile]);
 
   return (
     <div className="newpost">
@@ -102,7 +67,7 @@ export const NewPost = () => {
             onChange={(event) => setCaption(event.target.value)}
           />
           <div className="seprator">&</div>
-          <label>
+          <label className="upload-label">
             <input
               required
               type="file"
@@ -112,17 +77,23 @@ export const NewPost = () => {
             />
             <span>+</span>
           </label>
-          <span>{file ? file.name : "Add image"}</span>
           <button
             onClick={uploadPost}
             type="button"
             className="plain-action-btn mt"
+            disabled={uploadedFileurl ? false : true}
           >
             Upload
           </button>
         </form>
-        {status === "loading" && <div className="mt">Loading..</div>}
         {fileError && <div className="error">{fileError}</div>}
+        {file && (
+          <ProgressBar
+            file={file}
+            setFile={setFile}
+            setuploadedFileurl={setuploadedFileurl}
+          />
+        )}
       </div>
 
       <MobileNav />

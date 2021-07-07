@@ -1,0 +1,32 @@
+.search-page {
+  max-width: 35rem;
+  margin: 4rem auto;
+  border: 1px solid var(--borderColor);
+}
+.search-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 10rem;
+}
+.search-box {
+  width: 100%;
+}
+.search-holder {
+  display: flex;
+  align-items: center;
+}
+.search-btn {
+  cursor: pointer;
+}
+.list {
+  padding-left: 0;
+}
+.list-item {
+  margin: 0.3rem auto;
+  display: flex;
+  padding: 0.5rem;
+  align-items: center;
+  max-width: 15rem;
+}
