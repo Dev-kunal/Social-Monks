@@ -1,57 +1,45 @@
 import axios from "axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { instance } from "../utils";
 
 const initialState = {
   status: "idle",
   updateStatus: "idle",
   followersStatus: "idle",
   followingStatus: "idle",
-  loggedInUserId: "60db08481fa2cb0793c5f465",
   userInfo: {},
   followers: [],
   following: [],
   error: null,
 };
 
-// export const getAuthorizedUser = createAsyncThunk(
-//   "/authuser/userInfo",
-//   async () => {
-//     console.log(loggedInUserId);
-//     const response = await axios.get("http://localhost:7000/user", {
-//       headers: { userId: loggedInUserId },
-//     });
-//     console.log("auth user", response.data.userInfo[0]);
-//     return response.data.userInfo[0];
-//   }
-// );
-
 export const getUser = createAsyncThunk("/user/userInfo", async (userId) => {
-  const response = await axios.get("http://localhost:7000/user", {
-    headers: { userId: userId },
-  });
-  console.log(" user", response.data.userInfo[0]);
-  return response.data.userInfo[0];
+  try {
+    const response = await instance.get(`/profile/${userId}`);
+    console.log("user profile ", response.data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 export const updateUserProfile = createAsyncThunk(
-  "user/updateUserInfo",
+  "/user/updateProfile",
   async (userUpdate) => {
-    const response = await axios.post(
-      "http://localhost:7000/user/update",
-      userUpdate,
-      {
-        headers: { userId: "60db08481fa2cb0793c5f465" },
-      }
-    );
-    console.log(response.data);
-    return response.data;
+    try {
+      const response = await instance.post("/user/update", userUpdate);
+      console.log("resposne from backend", response.data);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
   }
 );
 
 export const getFollowers = createAsyncThunk(
   "/user/followers",
   async (userId) => {
-    const response = await axios.post("http://localhost:7000/user/followers", {
+    const response = await instance.post("/user/followers", {
       userId: userId,
     });
     console.log(response.data.followers);
@@ -62,7 +50,7 @@ export const getFollowers = createAsyncThunk(
 export const getFollowing = createAsyncThunk(
   "/user/following",
   async (userId) => {
-    const response = await axios.post("http://localhost:7000/user/following", {
+    const response = await instance.post("/user/following", {
       userId: userId,
     });
     console.log("following result", response.data.following);
@@ -73,50 +61,66 @@ export const getFollowing = createAsyncThunk(
 export const followUnfollow = createAsyncThunk(
   "user/followunfollow",
   async (userToFollowUnfollow) => {
-    const response = await axios.post("http://localhost:7000/followunfollow", {
-      userId: "60db08481fa2cb0793c5f465",
-      followingId: userToFollowUnfollow,
-    });
-    console.log(response.data);
-    return response.data;
+    try {
+      const response = await instance.post("/followunfollow", {
+        followingId: userToFollowUnfollow,
+      });
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
   }
 );
 
 const profileSlice = createSlice({
   name: "userInfo",
   reducers: {
-    resetProfile(state) {
+    resetProfile: (state) => {
       state.status = "idle";
+      state.userInfo = {};
     },
-    resetFollowers(state) {
+    resetFollowers: (state) => {
       state.followers = [];
       state.followersStatus = "idle";
     },
-    resetFollowing(state) {
+    resetFollowing: (state) => {
       state.following = [];
       state.followingStatus = "idle";
+    },
+    reduceFollowingCount: (state) => {
+      console.log("reduce following");
+      state.userInfo.following = state.userInfo.following - 1;
+    },
+    followUser: (state) => {
+      console.log("inside follow user");
+      state.userInfo.followers.push(followerId);
+    },
+    resetUserInfo: (state) => {
+      state.userInfo = {};
+      state.followers = [];
+      state.following = [];
+      state.status = "idle";
+      state.followersStatus = "idle";
+      state.followingStatus = "idle";
+      state.updateStatus = "idle";
     },
   },
   initialState,
   extraReducers: {
-    // [getAuthorizedUser.pending]: (state, action) => {
-    //   state.status = "loading";
-    // },
-    // [getAuthorizedUser.fulfilled]: (state, action) => {
-    //   state.status = "fulfilled";
-    //   state.userInfo = action.payload;
-    // },
     [getUser.fulfilled]: (state, action) => {
       state.status = "fulfilled";
-      state.userInfo = action.payload;
+      state.userInfo = action.payload.userData[0];
     },
+    [getUser.rejected]: (state, action) => {
+      state.status = "rejected";
+      console.log(action.payload);
+      state.userInfo = action.payload.userData[0];
+    },
+
     [updateUserProfile.fulfilled]: (state, action) => {
+      console.log("from fulfilled update", action.payload.updatedUser);
       state.userInfo = action.payload.updatedUser;
-      state.updateStatus = "fulfilled";
-      state.status = "idle";
-    },
-    [updateUserProfile.rejected]: (state, action) => {
-      state.updateStatus = "rejected";
     },
     [getFollowers.fulfilled]: (state, action) => {
       state.followers = action.payload.followers;
@@ -145,6 +149,12 @@ const profileSlice = createSlice({
   },
 });
 
-export const { resetProfile, resetFollowers, resetFollowing } =
-  profileSlice.actions;
+export const {
+  resetProfile,
+  resetFollowers,
+  resetFollowing,
+  reduceFollowingCount,
+  followUser,
+  resetUserInfo,
+} = profileSlice.actions;
 export default profileSlice.reducer;

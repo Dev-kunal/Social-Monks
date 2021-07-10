@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { instance } from "../utils";
 
 const initialState = {
   status: "idle",
@@ -8,34 +9,47 @@ const initialState = {
 };
 
 export const loadPosts = createAsyncThunk("/posts/loadposts", async () => {
-  const response = await axios.get("http://localhost:7000/user/feed", {
-    headers: { userId: "60db08481fa2cb0793c5f465" },
-  });
-  console.log(response.data);
+  try {
+    const response = await instance.get("/user/feed");
+    console.log("inside feed");
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+
   return response.data;
 });
 
 export const likePost = createAsyncThunk("/posts/like", async (postId) => {
-  const response = await axios.post("http://localhost:7000/posts/like", {
-    userId: "60db08481fa2cb0793c5f465",
-    postId: postId,
-  });
-  console.log(response.data.likedPost);
-  return response.data;
+  try {
+    const response = await instance.post("/posts/like", {
+      postId: postId,
+    });
+    console.log("likedPost", response.data.likedPost);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
 });
 export const unlikePost = createAsyncThunk("/posts/unlike", async (postId) => {
-  const response = await axios.post("http://localhost:7000/posts/unlike", {
-    userId: "60db08481fa2cb0793c5f465",
+  const response = await instance.post("/posts/unlike", {
     postId: postId,
   });
-  console.log(response.data.unLikedPost);
+  console.log("unliked psot", response.data.unLikedPost);
   return response.data;
 });
 
 export const postSlice = createSlice({
   name: "posts",
   initialState,
-  reducers: {},
+  reducers: {
+    resetFeed: (state) => {
+      console.log("inside resetFeed");
+      state.posts = [];
+      state.status = "idle";
+    },
+  },
   extraReducers: {
     [loadPosts.pending]: (state) => {
       state.status = "loading";
@@ -68,3 +82,4 @@ export const postSlice = createSlice({
 });
 
 export default postSlice.reducer;
+export const { resetFeed } = postSlice.actions;

@@ -7,6 +7,7 @@ import { MobileNav } from "../navbar/MobileNav";
 import { useNavigate } from "react-router";
 export const Search = () => {
   const [inputValue, setInputValue] = useState("");
+  const [mesg, setMesg] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { status, searchedUsers, error } = useSelector(
@@ -19,11 +20,15 @@ export const Search = () => {
   useEffect(() => {
     return () => {
       setInputValue("");
+      setMesg("");
     };
   }, []);
-  const getUsers = () => {
+  const getUsers = async () => {
     console.log("cliked");
-    dispatch(getSearchedUsers(inputValue));
+    const result = await dispatch(getSearchedUsers(inputValue));
+    if (result.payload.users.length < 1) {
+      setMesg("Searched user not found");
+    }
   };
 
   return (
@@ -37,6 +42,7 @@ export const Search = () => {
             type="text"
             placeholder="username"
             value={inputValue}
+            name="inputValue"
             onChange={(event) => handleInputChange(event.target.value)}
             required
           />
@@ -60,8 +66,12 @@ export const Search = () => {
         </div>
       </div>
       <div className="user-list">
+        <div style={{ margin: "0 auto", textAlign: "center" }}>
+          {/* {searchedUsers.length < 1 && "User not found with searched username"} */}
+          {mesg}
+        </div>
         <ul class="list">
-          {searchedUsers.map(({ _id, username, fullname }) => (
+          {searchedUsers.map(({ _id, username, fullname, profileUrl }) => (
             <li
               className="list-item"
               onClick={() =>
@@ -73,7 +83,7 @@ export const Search = () => {
               }
             >
               <div>
-                <img className="avatar-xs" src="./userAvatar.svg" />
+                <img className="avatar-xs" src={profileUrl} />
               </div>
               <div style={{ marginLeft: "0.4rem" }}>
                 {" "}

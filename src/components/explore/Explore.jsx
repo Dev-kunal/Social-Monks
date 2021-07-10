@@ -6,9 +6,10 @@ import { useEffect } from "react";
 export const Explore = () => {
   const dispatch = useDispatch();
   const { allPosts, status } = useSelector((state) => state.allPosts);
+  const { token } = useSelector((state) => state.loggedInUserInfo);
   useEffect(() => {
     if (status === "idle") {
-      dispatch(getAllPosts());
+      dispatch(getAllPosts(token));
     }
   }, [status, dispatch]);
 
@@ -16,7 +17,6 @@ export const Explore = () => {
     <div className="explore-page">
       <MobileNav />
       <div className="explore-container">
-        {console.log(allPosts)}
         {allPosts.map(({ fileurl }) => (
           <div className="explore-post">
             <img src={fileurl} width="100%" height="100%" alt="img-post" />

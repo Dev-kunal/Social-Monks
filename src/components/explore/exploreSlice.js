@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { instance } from "../utils";
 
 const initialState = {
   status: "idle",
@@ -8,14 +9,23 @@ const initialState = {
 };
 
 export const getAllPosts = createAsyncThunk("explore/allposts", async () => {
-  const response = await axios.get("http://localhost:7000/posts");
-  console.log(response.data.allPosts);
-  return response.data;
+  try {
+    const response = await instance.get("/user/explore");
+    console.log(response.data.allPosts);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 export const exploreSlice = createSlice({
   name: "explore",
-  reducers: {},
+  reducers: {
+    resetAllPosts: (state) => {
+      state.allPosts = [];
+      state.status = "idle";
+    },
+  },
   initialState,
   extraReducers: {
     [getAllPosts.pending]: (state) => {
@@ -28,3 +38,4 @@ export const exploreSlice = createSlice({
 });
 
 export default exploreSlice.reducer;
+export const { resetAllPosts } = exploreSlice.actions;

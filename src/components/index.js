@@ -1,5 +1,5 @@
-export { Login } from "./login/Login";
-export { Signup } from "./login/Signup";
+export { Login } from "./auth/Login";
+export { Signup } from "./auth/Signup";
 export { Post } from "./post/Post";
 export { Navbar } from "./navbar/Navbar";
 export { Home } from "./home/Home";

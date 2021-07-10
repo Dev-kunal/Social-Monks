@@ -1,11 +1,14 @@
 import "./navbar.css";
-import { MobileNav } from "..";
+
 import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 export const Navbar = () => {
   const navigate = useNavigate();
-  const { profileUrl, loggedInUserId } = useSelector((state) => state.userInfo);
+  const { loggedInUser } = useSelector((state) => state.loggedInUserInfo);
+
+  // console.log("Logged user details (Navbar) => ", loggedInUser);
+
   return (
     <div>
       <div className="navbar-top">
@@ -82,16 +85,19 @@ export const Navbar = () => {
             </NavLink>
             <button
               className="post-action-btn"
-              activeClassName="active"
               onClick={() =>
                 navigate("/profile", {
                   state: {
-                    userId: loggedInUserId,
+                    userId: loggedInUser.userId,
                   },
                 })
               }
             >
-              <img className="avatar-xs" src={profileUrl} alt="Avatar" />
+              <img
+                className="avatar-xs"
+                src={loggedInUser.profileUrl}
+                alt="Avatar"
+              />
             </button>
           </div>
         </div>

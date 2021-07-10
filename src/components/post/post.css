@@ -38,5 +38,5 @@
   font-weight: 100;
 } */
 .post-action-btn .fas {
-  color: orange;
+  color: var(--primaryColor);
 }

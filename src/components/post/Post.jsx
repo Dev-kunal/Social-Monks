@@ -12,14 +12,14 @@ export const Post = ({
 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const { loggedInUser } = useSelector((state) => state.loggedInUserInfo);
   const isPostLiked = () => {
-    return likes.includes("60db08481fa2cb0793c5f465");
+    return likes.includes(loggedInUser._id);
   };
 
   return (
     <>
-      <div className="post">
+      <div className="post" key={_id}>
         <div className="user">
           <img
             className="avatar-small"
@@ -64,9 +64,9 @@ export const Post = ({
             </span>
           </div>
           <div className="group2">
-            <button className="post-action-btn">
+            {/* <button className="post-action-btn">
               <i className="far fa-bookmark"></i>
-            </button>
+            </button> */}
           </div>
         </div>
         <div className="post-caption">

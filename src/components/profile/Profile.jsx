@@ -1,35 +1,46 @@
 import { useDispatch, useSelector } from "react-redux";
 import { MobileNav } from "../index";
 import "./profile.css";
-import { followUnfollow, getUser, resetProfile } from "./profileSlice";
-import { useEffect, useState } from "react";
-import { Post } from "../post/Post";
-import { useNavigate, NavLink, useLocation } from "react-router-dom";
-import axios from "axios";
+import {
+  followUnfollow,
+  getUser,
+  resetProfile,
+  reduceFollowingCount,
+  followUser,
+  resetUserInfo,
+} from "./profileSlice";
+import { useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { resetFeed } from "../post/postSlice";
+import { resetloggedInUserInfo } from "../auth/userSlice";
+import { resetAllPosts } from "../explore/exploreSlice";
 
 export const Profile = () => {
-  const { status, userInfo, error, loggedInUserId } = useSelector(
-    (state) => state.userInfo
+  const { status, userInfo, error } = useSelector((state) => state.userInfo);
+  const { loggedInUser, token } = useSelector(
+    (state) => state.loggedInUserInfo
   );
+
+  console.log("from Profilep page ==>", userInfo);
+  console.log(status);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { state } = useLocation();
-  let {
-    state: { userId },
-  } = useLocation();
 
   useEffect(() => {
     if (status === "idle") {
-      dispatch(getUser(userId));
+      if (state?.userId) {
+        console.log("inside userid", state.userId);
+        dispatch(getUser(state.userId));
+      } else {
+        dispatch(getUser(loggedInUser._id));
+      }
     }
     return () => {
       dispatch(resetProfile());
     };
-  }, [userId, dispatch]);
+  }, [state?.userId, dispatch]);
 
-  // console.log("userid from profile ", userId);
-  // console.log("loggedinuserid from profile ", loggedInUserId);
-  console.log(userInfo);
   let {
     _id,
     username,
@@ -48,16 +59,27 @@ export const Profile = () => {
         follower.followStatus === "following" && follower.userId === myId
     ).length;
   };
-  // const followUnfollow = async () => {
-  //   const response = await axios.post("http://localhost:7000/followunfollow", {
-  //     userId: "60db08481fa2cb0793c5f465",
-  //     followingId: _id,
-  //   });
-  //   console.log(response.data);
-  // };
   const followersLength = () => {
     return followers.filter((follower) => follower.followStatus === "following")
       .length;
+  };
+  const followOrUnfolllow = async (id) => {
+    const result = await dispatch(followUnfollow(id));
+    if (result.payload.unfollowed) {
+      dispatch(reduceFollowingCount());
+    }
+    if (result.payload.followed) {
+      dispatch(followUser(loggedInUser._id));
+    }
+  };
+  const logOut = () => {
+    console.log("Logging out");
+    // here reset all slices
+    dispatch(resetFeed());
+    dispatch(resetAllPosts());
+    dispatch(resetUserInfo());
+    // dispatch(resetSearchedUsers());
+    dispatch(resetloggedInUserInfo());
   };
   return (
     <>
@@ -69,40 +91,47 @@ export const Profile = () => {
               <img class="avatar-circle" src={profileUrl} alt="Avatar" />
               <div className="user-info">
                 <h2 className="username">{username}</h2>
-                {_id === loggedInUserId ? (
-                  <button
-                    className="plain-action-btn"
-                    onClick={() =>
-                      navigate("/editprofile", {
-                        state: {
-                          userId: _id,
-                        },
-                      })
-                    }
-                  >
-                    Edit profile
-                  </button>
+                {_id === loggedInUser._id ? (
+                  <>
+                    <button
+                      className="plain-action-btn"
+                      onClick={() =>
+                        navigate("/editprofile", {
+                          state: {
+                            userId: loggedInUser.userId,
+                          },
+                        })
+                      }
+                    >
+                      Edit profile
+                    </button>
+                    <button
+                      className="plain-action-btn"
+                      onClick={() => logOut()}
+                    >
+                      Log-out
+                    </button>
+                  </>
                 ) : (
                   <div>
-                    {followingOrNot(followers, loggedInUserId) > 0 ? (
+                    {followingOrNot(followers, loggedInUser._id) > 0 ? (
                       <button
                         className="plain-action-btn following"
-                        onClick={() => dispatch(followUnfollow(_id))}
+                        onClick={() => followOrUnfolllow(_id)}
                       >
                         Following
                       </button>
                     ) : (
                       <button
                         className="plain-action-btn"
-                        onClick={() => dispatch(followUnfollow(_id))}
+                        onClick={() => followOrUnfolllow(_id)}
                       >
                         Follow
                       </button>
                     )}
                   </div>
                 )}
-                {console.log("loggedInUserid===>", loggedInUserId)}
-                {console.log(followingOrNot(followers, loggedInUserId))}
+                {console.log("loggedInUserid===>", loggedInUser._id)}
               </div>
             </div>
             <div className="bio">
@@ -150,8 +179,13 @@ export const Profile = () => {
               </div>
             </div>
             <div className="explore-container"></div>
-            {posts.map(({ ...props }) => (
+            {/* {posts.map(({ ...props }) => (
               <Post {...props} />
+            ))} */}
+            {posts.map(({ fileurl }) => (
+              <div className="explore-post">
+                <img src={fileurl} width="100%" height="100%" alt="img-post" />
+              </div>
             ))}
           </>
         )}

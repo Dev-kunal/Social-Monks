@@ -3,10 +3,11 @@ import { useEffect, useState } from "react";
 import { MobileNav } from "../navbar/MobileNav";
 import { ProgressBar } from "./ProgressBar";
 import "./newpost.css";
+import { instance } from "../utils";
 
 export const NewPost = () => {
   const [file, setFile] = useState(null);
-  const [fileError, setFileError] = useState(null);
+  const [fileStatus, setfileStatus] = useState(null);
   const [caption, setCaption] = useState("");
   const [uploadedFileurl, setuploadedFileurl] = useState(null);
 
@@ -16,10 +17,10 @@ export const NewPost = () => {
 
     if (selectedFile && allowFileTypes.includes(selectedFile.type)) {
       setFile(selectedFile);
-      setFileError("");
+      setfileStatus("");
     } else {
       setFile(null);
-      setFileError("Select an image file (png or jpg)");
+      setfileStatus("Select an image file (png or jpg)");
     }
   };
 
@@ -32,16 +33,13 @@ export const NewPost = () => {
       };
       (async () => {
         try {
-          console.log("calling...");
-          const response = await axios.post(
-            "http://localhost:7000/posts",
-            postData
-          );
-          console.log(response);
+          const response = await instance.post("/posts", postData);
+          console.log(response.data);
           if (response.data.success) {
             setFile(null);
             setCaption("");
             setuploadedFileurl(null);
+            setfileStatus("Uploaded");
           }
         } catch (error) {
           setFile(null);
@@ -49,7 +47,7 @@ export const NewPost = () => {
         }
       })();
     } else {
-      setFileError("Please select an image");
+      setfileStatus("Please select an image");
     }
   };
 
@@ -86,7 +84,7 @@ export const NewPost = () => {
             Upload
           </button>
         </form>
-        {fileError && <div className="error">{fileError}</div>}
+        {fileStatus && <div className="error">{fileStatus}</div>}
         {file && (
           <ProgressBar
             file={file}

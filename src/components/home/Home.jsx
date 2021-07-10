@@ -3,7 +3,7 @@ import { Post } from "../post/Post";
 import "./home.css";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { loadPosts } from "../post/postSlice";
+import { loadPosts, resetFeed } from "../post/postSlice";
 import { useSelector } from "react-redux";
 
 export const Home = () => {
@@ -19,21 +19,26 @@ export const Home = () => {
   return (
     <div className="home">
       <MobileNav />
-      {posts.length < 1 && (
-        <div
-          style={{
-            height: "100vh",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          Youve not followed anyone follow some users to see their posts
+      {status !== "idle" && (
+        <div>
+          {posts.length < 1 && (
+            <div
+              style={{
+                height: "100vh",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              Youve not followed anyone follow some users to see their posts
+            </div>
+          )}
+
+          {posts.map(({ ...props }) => (
+            <Post {...props} />
+          ))}
         </div>
       )}
-      {posts.map(({ ...props }) => (
-        <Post {...props} />
-      ))}
     </div>
   );
 };

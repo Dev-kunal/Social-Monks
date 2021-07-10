@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { instance } from "../utils";
 
 const initialState = {
   status: "idle",
@@ -10,8 +11,8 @@ const initialState = {
 export const getSearchedUsers = createAsyncThunk(
   "seatch/users",
   async (value) => {
-    const response = await axios.get("http://localhost:7000/user/search", {
-      headers: { searchTerm: value },
+    const response = await instance.post("/user/search", {
+      searchTerm: value,
     });
     console.log(response.data);
     return response.data;

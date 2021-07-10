@@ -1,14 +1,15 @@
 import "./edit.css";
 import { useEffect, useState } from "react";
 import { ProgressBar } from "../newpost/ProgressBar";
-import { updateUserProfile } from "./profileSlice";
-
+import { resetProfile, updateUserProfile } from "./profileSlice";
+import { MobileNav } from "..";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { resetProfileImg } from "../auth/userSlice";
 
 export const EditProfile = () => {
   const [file, setFile] = useState(null);
-  const [fileError, setFileError] = useState(null);
+  const [fileStatus, setfileStatus] = useState(null);
   const [uploadedFileurl, setuploadedFileurl] = useState("");
   const [userData, setUserData] = useState({
     username: "",
@@ -16,12 +17,15 @@ export const EditProfile = () => {
     fullname: "",
     profileUrl: "",
   });
-  const { status, userInfo, error } = useSelector((state) => state.userInfo);
+  const { status, updateStatus, userInfo, error } = useSelector(
+    (state) => state.userInfo
+  );
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const { loggedInUser } = useSelector((state) => state.loggedInUserInfo);
   useEffect(() => {
-    if (status === "fulfilled") {
+    if (updateStatus === "idle") {
       console.log(userInfo);
       setUserData(() => ({
         username: userInfo.username,
@@ -29,14 +33,32 @@ export const EditProfile = () => {
         fullname: userInfo.fullname,
       }));
     }
-  }, [status]);
+  }, [updateStatus]);
 
-  const updateProfile = () => {
+  const updateProfile = async () => {
     const userUpdate = { ...userData, profileUrl: uploadedFileurl };
-    console.log(uploadedFileurl);
-    console.log(userUpdate);
-    dispatch(updateUserProfile(userUpdate));
-    navigate("/profile");
+    // console.log(userUpdate);
+    const result = await dispatch(
+      updateUserProfile(userUpdate, loggedInUser.userId)
+    );
+    if (result.payload.success) {
+      dispatch(resetProfileImg(result.payload.updatedUser.profileUrl));
+      console.log(
+        "upudated userProfile ",
+        result.payload.updatedUser.profileUrl
+      );
+      setUserData({
+        username: "",
+        bio: "",
+        fullname: "",
+        profileUrl: "",
+      });
+      // navigate("/profile", {
+      //   state: {
+      //     userId: loggedInUser.userId,
+      //   },
+      // });
+    }
   };
 
   const selectFile = (event) => {
@@ -44,10 +66,10 @@ export const EditProfile = () => {
     const allowFileTypes = ["image/png", "image/jpeg"];
     if (selectedFile && allowFileTypes.includes(selectedFile.type)) {
       setFile(selectedFile);
-      setFileError("");
+      setfileStatus("");
     } else {
       setFile(null);
-      setFileError("Select an image file (png or jpg)");
+      setfileStatus("Select an image file (png or jpg)");
     }
   };
   const onType = (event) => {
@@ -111,7 +133,8 @@ export const EditProfile = () => {
 
             <div>
               {" "}
-              {fileError && <div className="error">{fileError}</div>}
+              {uploadedFileurl && "Profile image added to Update"}
+              {fileStatus && <div className="error">{fileStatus}</div>}
               {file && (
                 <ProgressBar
                   file={file}
@@ -126,6 +149,7 @@ export const EditProfile = () => {
           </button>
         </form>
       </div>
+      <MobileNav />
     </div>
   );
 };

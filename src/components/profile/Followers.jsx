@@ -5,7 +5,7 @@ import { MobileNav } from "../navbar/MobileNav";
 import { getFollowers, resetFollowers } from "./profileSlice";
 
 export const Followers = () => {
-  const { followersStatus, followers, error } = useSelector(
+  const { followersStatus, followers, error, userInfo } = useSelector(
     (state) => state.userInfo
   );
   const { state } = useLocation();
@@ -17,40 +17,43 @@ export const Followers = () => {
 
   useEffect(() => {
     if (followersStatus === "idle") {
-      dispatch(getFollowers(userId));
+      dispatch(getFollowers(state.userId));
     }
     return () => {
       dispatch(resetFollowers());
     };
-  }, [userId, dispatch]);
+  }, [userInfo.userId, dispatch]);
 
-  console.log("followers from foolowers page", followers);
+  console.log("followers from followers page", followers);
   return (
     <div className="followers">
       <div className="user-list">
         <ul class="list">
-          {followers.map(({ userId: { _id, username, fullname } }) => (
-            <li
-              className="list-item"
-              onClick={() =>
-                navigate("/profile", {
-                  state: {
-                    userId: _id,
-                  },
-                })
-              }
-            >
-              <div>
-                <img className="avatar-xs" src="./userAvatar.svg" />
-              </div>
-              <div style={{ marginLeft: "0.4rem" }}>
-                {" "}
-                {username}
-                <br />
-                <small>{fullname}</small>
-              </div>
-            </li>
-          ))}
+          {followers.length < 1 && "No  Followers"}
+          {followers.map(
+            ({ userId: { _id, username, fullname, profileUrl } }) => (
+              <li
+                className="list-item"
+                onClick={() =>
+                  navigate("/profile", {
+                    state: {
+                      userId: _id,
+                    },
+                  })
+                }
+              >
+                <div>
+                  <img className="avatar-xs" src={profileUrl} />
+                </div>
+                <div style={{ marginLeft: "0.4rem" }}>
+                  {" "}
+                  {username}
+                  <br />
+                  <small>{fullname}</small>
+                </div>
+              </li>
+            )
+          )}
         </ul>
       </div>
       <MobileNav />
