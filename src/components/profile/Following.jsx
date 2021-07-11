@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { getFollowing, resetFollowing } from "./profileSlice";
 import { MobileNav } from "..";
 import { useNavigate, useLocation } from "react-router-dom";
+import Loader from "react-loader-spinner";
 
 export const Following = () => {
   const { followingStatus, following, error, userInfo } = useSelector(
@@ -27,6 +28,17 @@ export const Following = () => {
   // console.log("userinfo from following page", userInfo);
   return (
     <div className="followers">
+      {followingStatus === "loading" && (
+        <div className="loader-container">
+          <Loader
+            type="Oval"
+            color="#2bc48a"
+            height={60}
+            width={60}
+            timeout={3000}
+          />
+        </div>
+      )}
       <div className="user-list">
         <ul class="list">
           {following.length < 1 && "Not Following Anyone"}

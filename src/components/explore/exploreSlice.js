@@ -33,6 +33,7 @@ export const exploreSlice = createSlice({
     },
     [getAllPosts.fulfilled]: (state, action) => {
       state.allPosts = action.payload.allPosts;
+      state.status = "fulfilled";
     },
   },
 });

@@ -114,17 +114,28 @@ const profileSlice = createSlice({
     },
     [getUser.rejected]: (state, action) => {
       state.status = "rejected";
-      console.log(action.payload);
       state.userInfo = action.payload.userData[0];
+    },
+    [getUser.pending]: (state, action) => {
+      state.status = "loading";
     },
 
     [updateUserProfile.fulfilled]: (state, action) => {
-      console.log("from fulfilled update", action.payload.updatedUser);
       state.userInfo = action.payload.updatedUser;
+      state.updateStatus = "fulfilled";
+    },
+    [updateUserProfile.pending]: (state) => {
+      state.updateStatus = "loading";
+    },
+    [getFollowers.pending]: (state) => {
+      state.followersStatus = "loading";
     },
     [getFollowers.fulfilled]: (state, action) => {
       state.followers = action.payload.followers;
       state.followersStatus = "fulfilled";
+    },
+    [getFollowing.pending]: (state) => {
+      state.followingStatus = "loading";
     },
     [getFollowing.fulfilled]: (state, action) => {
       state.following = action.payload.following;

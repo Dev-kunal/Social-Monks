@@ -14,6 +14,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { resetFeed } from "../post/postSlice";
 import { resetloggedInUserInfo } from "../auth/userSlice";
 import { resetAllPosts } from "../explore/exploreSlice";
+import Loader from "react-loader-spinner";
 
 export const Profile = () => {
   const { status, userInfo, error } = useSelector((state) => state.userInfo);
@@ -21,8 +22,6 @@ export const Profile = () => {
     (state) => state.loggedInUserInfo
   );
 
-  console.log("from Profilep page ==>", userInfo);
-  console.log(status);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -30,7 +29,6 @@ export const Profile = () => {
   useEffect(() => {
     if (status === "idle" || status === "fulfilled") {
       if (state?.userId) {
-        console.log("inside userid", state.userId);
         dispatch(getUser(state.userId));
       } else {
         dispatch(getUser(loggedInUser._id));
@@ -53,7 +51,6 @@ export const Profile = () => {
   } = userInfo;
 
   const followingOrNot = (followers, myId) => {
-    console.log("current users followers", followers);
     return followers.filter(
       (follower) =>
         follower.followStatus === "following" && follower.userId === myId
@@ -77,12 +74,23 @@ export const Profile = () => {
     dispatch(resetFeed());
     dispatch(resetAllPosts());
     dispatch(resetUserInfo());
-    // dispatch(resetSearchedUsers());
     dispatch(resetloggedInUserInfo());
   };
   return (
     <>
       <div className="user-page">
+        {status === "loading" && (
+          <div className="loader-container">
+            <Loader
+              type="Oval"
+              color="#2bc48a"
+              height={60}
+              width={60}
+              timeout={3000}
+            />
+          </div>
+        )}
+
         {userInfo.posts && (
           <>
             {" "}

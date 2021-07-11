@@ -61,6 +61,7 @@ const userSlice = createSlice({
     },
     resetNotifications: (state) => {
       state.notifications = [];
+      state.notificationStatus = "idle";
     },
   },
   extraReducers: {
@@ -75,13 +76,15 @@ const userSlice = createSlice({
     [loginUser.rejected]: (state, action) => {
       state.status = "rejected";
     },
-
-    [signupUser.fulfilled]: (state, action) => {
+    [signupUser.fulfilled]: (state) => {
       state.status = "fulfilled";
+    },
+    [getNotifications.pending]: (state) => {
+      state.notificationStatus = "loading";
     },
     [getNotifications.fulfilled]: (state, action) => {
       state.notifications = action.payload.notifications;
-      state.status = "fulfilled";
+      state.notificationStatus = "fulfilled";
     },
   },
 });

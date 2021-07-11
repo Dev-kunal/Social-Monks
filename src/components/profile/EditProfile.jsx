@@ -6,6 +6,7 @@ import { MobileNav } from "..";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { resetProfileImg } from "../auth/userSlice";
+import Loader from "react-loader-spinner";
 
 export const EditProfile = () => {
   const [file, setFile] = useState(null);
@@ -17,7 +18,7 @@ export const EditProfile = () => {
     fullname: "",
     profileUrl: "",
   });
-  const { status, updateStatus, userInfo, error } = useSelector(
+  const { updateStatus, userInfo, error } = useSelector(
     (state) => state.userInfo
   );
 
@@ -26,7 +27,6 @@ export const EditProfile = () => {
   const { loggedInUser } = useSelector((state) => state.loggedInUserInfo);
   useEffect(() => {
     if (updateStatus === "idle") {
-      console.log(userInfo);
       setUserData(() => ({
         username: userInfo.username,
         bio: userInfo.bio,
@@ -37,27 +37,18 @@ export const EditProfile = () => {
 
   const updateProfile = async () => {
     const userUpdate = { ...userData, profileUrl: uploadedFileurl };
-    // console.log(userUpdate);
     const result = await dispatch(
       updateUserProfile(userUpdate, loggedInUser.userId)
     );
     if (result.payload.success) {
       dispatch(resetProfileImg(result.payload.updatedUser.profileUrl));
-      console.log(
-        "upudated userProfile ",
-        result.payload.updatedUser.profileUrl
-      );
       setUserData({
         username: "",
         bio: "",
         fullname: "",
         profileUrl: "",
       });
-      // navigate("/profile", {
-      //   state: {
-      //     userId: loggedInUser.userId,
-      //   },
-      // });
+      setfileStatus("Profile Updated Succesfully");
     }
   };
 
@@ -84,7 +75,17 @@ export const EditProfile = () => {
 
   return (
     <div className="edit-page">
-      {" "}
+      {updateStatus === "loading" && (
+        <div className="loader-container">
+          <Loader
+            type="Oval"
+            color="#2bc48a"
+            height={60}
+            width={60}
+            timeout={3000}
+          />
+        </div>
+      )}
       <div className="form">
         <h1 className="brand-name">Social monks</h1>
         <form>

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllPosts } from "./exploreSlice";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Loader from "react-loader-spinner";
 export const Explore = () => {
   const dispatch = useDispatch();
   const { allPosts, status } = useSelector((state) => state.allPosts);
@@ -17,6 +18,18 @@ export const Explore = () => {
   return (
     <div className="explore-page">
       <MobileNav />
+      {status === "loading" && (
+        <div className="loader-container">
+          <Loader
+            type="Oval"
+            color="#2bc48a"
+            height={60}
+            width={60}
+            timeout={3000}
+          />
+        </div>
+      )}
+
       <div className="explore-container">
         {allPosts.map(({ _id, fileurl }) => (
           <div

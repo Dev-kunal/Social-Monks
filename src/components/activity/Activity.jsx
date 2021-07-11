@@ -3,6 +3,7 @@ import { getNotifications, resetNotifications } from "../auth/userSlice";
 import { MobileNav } from "../index";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Loader from "react-loader-spinner";
 
 export const Activity = () => {
   const dispatch = useDispatch();
@@ -14,9 +15,9 @@ export const Activity = () => {
     if (notificationStatus === "idle") {
       dispatch(getNotifications());
     }
-    return () => {
-      dispatch(resetNotifications());
-    };
+    // return () => {
+    //   dispatch(resetNotifications());
+    // };
   }, [notificationStatus, dispatch]);
 
   const userNotifications = notifications?.map((item) => ({
@@ -26,6 +27,17 @@ export const Activity = () => {
   console.log("===>", userNotifications);
   return (
     <div style={{ maxWidth: "35rem", margin: "4rem auto" }}>
+      {notificationStatus === "loading" && (
+        <div className="loader-container">
+          <Loader
+            type="Oval"
+            color="#2bc48a"
+            height={60}
+            width={60}
+            timeout={3000}
+          />
+        </div>
+      )}
       {userNotifications?.length < 1 && "No Notifications"}
       <ul className="list">
         {userNotifications?.map(({ _id, type, profileUrl, username }) => (

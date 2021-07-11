@@ -38,6 +38,7 @@
 .error {
   margin-top: 0.7rem;
   color: var(--error);
+  text-align: center;
 }
 .upload-label input {
   height: 0;
