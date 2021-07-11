@@ -38,7 +38,6 @@ export const Signup = () => {
         email: "",
         password: "",
       });
-      // navigate("/login");
     }
   };
 

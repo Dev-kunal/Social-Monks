@@ -28,7 +28,7 @@ export const Profile = () => {
   const { state } = useLocation();
 
   useEffect(() => {
-    if (status === "idle") {
+    if (status === "idle" || status === "fulfilled") {
       if (state?.userId) {
         console.log("inside userid", state.userId);
         dispatch(getUser(state.userId));
@@ -39,7 +39,7 @@ export const Profile = () => {
     return () => {
       dispatch(resetProfile());
     };
-  }, [state?.userId, dispatch]);
+  }, [state?.userId, loggedInUser._id, dispatch]);
 
   let {
     _id,
@@ -74,7 +74,6 @@ export const Profile = () => {
   };
   const logOut = () => {
     console.log("Logging out");
-    // here reset all slices
     dispatch(resetFeed());
     dispatch(resetAllPosts());
     dispatch(resetUserInfo());

@@ -26,7 +26,9 @@ export const Search = () => {
   const getUsers = async () => {
     console.log("cliked");
     const result = await dispatch(getSearchedUsers(inputValue));
-    if (result.payload.users.length < 1) {
+    if (result.payload.users.length > 1) {
+      setMesg("");
+    } else {
       setMesg("Searched user not found");
     }
   };

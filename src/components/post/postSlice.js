@@ -60,10 +60,10 @@ export const postSlice = createSlice({
     resetFeed: (state) => {
       console.log("inside resetFeed");
       state.status = "idle";
-      // state.posts = [];
+      state.posts = null;
     },
     resetPost: (state) => {
-      state.post = {};
+      state.post = null;
       state.postStatus = "idle";
     },
   },

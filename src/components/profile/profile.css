@@ -2,6 +2,7 @@
   height: 100vh;
   margin-top: 3rem;
   padding: 1rem;
+  margin-bottom: 1rem;
 }
 .user-header {
   display: flex;
@@ -67,7 +68,7 @@ a {
   }
   .user-page {
     margin-top: 7rem;
-    max-width: 60%;
+    max-width: 35rem;
     margin: 0 auto;
   }
   .user-header {

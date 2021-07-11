@@ -8,23 +8,22 @@ import { useSelector } from "react-redux";
 
 export const Home = () => {
   const { posts, status, error } = useSelector((state) => state.posts);
+  const { token } = useSelector((state) => state.loggedInUserInfo);
   const dispatch = useDispatch();
   useEffect(() => {
     if (status === "idle") {
       dispatch(loadPosts());
     }
-    // return () => {
-    //   dispatch(resetFeed());
-    // };
   }, [status, dispatch, posts]);
 
   console.log("posts from homepage", posts);
+  console.log("token from homepage", token);
   return (
     <div className="home">
       <MobileNav />
       {status !== "idle" && (
         <div>
-          {posts.length < 1 && (
+          {posts?.length < 1 && (
             <div
               style={{
                 height: "100vh",
@@ -37,7 +36,7 @@ export const Home = () => {
             </div>
           )}
 
-          {posts.map(({ ...props }) => (
+          {posts?.map(({ ...props }) => (
             <Post {...props} />
           ))}
         </div>

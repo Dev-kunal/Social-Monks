@@ -8,6 +8,7 @@ import {
   saveUserToLocalStorage,
   setupAuthHeaderForServiceCalls,
 } from "../utils";
+import axios from "axios";
 
 export const Login = () => {
   const dispatch = useDispatch();
@@ -26,21 +27,22 @@ export const Login = () => {
     }));
   };
 
-  const { status, error } = useSelector((state) => state.loggedInUserInfo);
   const submitForm = async (event) => {
     event.preventDefault();
-    let result = await dispatch(loginUser(userData));
-    if (!result.payload.success) {
-      console.log(result.payload);
-      setMesg(result.payload.message);
+    const {
+      payload: { success, message, user, token },
+    } = await dispatch(loginUser(userData));
+    if (!success) {
+      console.log(token, success);
+      setMesg(message);
     } else {
       setUserData({
         username: "",
         password: "",
       });
-      setupAuthHeaderForServiceCalls(result.payload.token);
-      saveUserToLocalStorage(result.payload.user, result.payload.token);
-      console.log(result.payload.token);
+      setupAuthHeaderForServiceCalls(token);
+      saveUserToLocalStorage(user, token);
+      console.log(token);
       navigate("/");
     }
   };

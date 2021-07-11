@@ -92,9 +92,9 @@ const profileSlice = createSlice({
       console.log("reduce following");
       state.userInfo.following = state.userInfo.following - 1;
     },
-    followUser: (state) => {
+    followUser: (state, action) => {
       console.log("inside follow user");
-      state.userInfo.followers.push(followerId);
+      state.userInfo.followers.push(action.payload.followerId);
     },
     resetUserInfo: (state) => {
       state.userInfo = {};

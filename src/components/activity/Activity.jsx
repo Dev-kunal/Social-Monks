@@ -3,20 +3,21 @@ import { getNotifications, resetNotifications } from "../auth/userSlice";
 import { MobileNav } from "../index";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
 export const Activity = () => {
   const dispatch = useDispatch();
-  const { status, notifications } = useSelector(
+  const { notificationStatus, notifications } = useSelector(
     (state) => state.loggedInUserInfo
   );
   const navigate = useNavigate();
   useEffect(() => {
-    if (status === "idle") {
+    if (notificationStatus === "idle") {
       dispatch(getNotifications());
     }
-    // return () => {
-    //   dispatch(resetNotifications());
-    // };
-  }, [status, dispatch]);
+    return () => {
+      dispatch(resetNotifications());
+    };
+  }, [notificationStatus, dispatch]);
 
   const userNotifications = notifications?.map((item) => ({
     ...item.sourceUser,
@@ -25,9 +26,9 @@ export const Activity = () => {
   console.log("===>", userNotifications);
   return (
     <div style={{ maxWidth: "35rem", margin: "4rem auto" }}>
-      {/* {notifications.length < 1 && "No Notifications"} */}
+      {userNotifications?.length < 1 && "No Notifications"}
       <ul className="list">
-        {userNotifications.map(({ _id, type, profileUrl, username }) => (
+        {userNotifications?.map(({ _id, type, profileUrl, username }) => (
           <div>
             <li
               className="list-item"

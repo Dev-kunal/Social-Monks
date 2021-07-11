@@ -2,7 +2,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { instance } from "../utils";
 
-const userDataFromLocalStorage = JSON.parse(localStorage.getItem("user")) || {};
+const userDataFromLocalStorage =
+  JSON.parse(localStorage.getItem("user")) || null;
 
 const initialState = {
   status: "idle",
@@ -12,24 +13,19 @@ const initialState = {
         _id: userDataFromLocalStorage.userId,
         profileUrl: userDataFromLocalStorage.profileUrl,
       }
-    : {},
-  token: userDataFromLocalStorage.token || null,
+    : null,
+  token: userDataFromLocalStorage?.token || null,
+  notificationStatus: "idle",
   notifications: [],
 };
+console.log(initialState.token);
 
 export const loginUser = createAsyncThunk("auth/login", async (userData) => {
-  const response = await axios.post(
-    "http://localhost:7000/auth/login",
-    userData
-  );
-  // console.log("after login userdata", response.data);
+  const response = await instance.post("/auth/login", userData);
   return response.data;
 });
 export const signupUser = createAsyncThunk("auth/signup", async (userData) => {
-  const response = await axios.post(
-    "http://localhost:7000/auth/signup",
-    userData
-  );
+  const response = await axios.post("/auth/signup", userData);
   console.log(response.data);
   return response.data;
 });
@@ -52,11 +48,12 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     resetloggedInUserInfo: (state) => {
-      state.loggedInUser = {};
-      state.token = null;
-      state.notifications = [];
       localStorage.removeItem("user");
+      state.loggedInUser = null;
+      state.token = null;
+      state.notifications = null;
       state.status = "idle";
+      state.notificationStatus = "idle";
     },
     resetProfileImg: (state, action) => {
       console.log("from reset pimg", action.payload);

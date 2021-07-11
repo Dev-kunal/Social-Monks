@@ -20,17 +20,13 @@ import {
   PrivateRoute,
   setupAuthHeaderForServiceCalls,
 } from "./components/utils";
+import { useSelector } from "react-redux";
 
 export default function App() {
-  // useEffect(() => {
-  //   (async () => {
-  //     const userDataFromLocalStorage = JSON.parse(localStorage.getItem("user"));
-  //     if (userDataFromLocalStorage) {
-  //       setupAuthHeaderForServiceCalls(userDataFromLocalStorage.token);
-  //     }
-  //   })();
-  // }, []);
-
+  const { token } = useSelector((state) => state.loggedInUserInfo);
+  if (token) {
+    setupAuthHeaderForServiceCalls(token);
+  }
   return (
     <div className="App">
       <Navbar />

@@ -2,6 +2,15 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { Route, Navigate } from "react-router";
 
+export const PrivateRoute = ({ path, ...props }) => {
+  const { token } = useSelector((state) => state.loggedInUserInfo);
+  return token ? (
+    <Route {...props} />
+  ) : (
+    <Navigate state={{ from: path }} replace={true} to="/login" />
+  );
+};
+
 export const saveUserToLocalStorage = (user, token) => {
   localStorage.setItem(
     "user",
@@ -13,28 +22,13 @@ export const saveUserToLocalStorage = (user, token) => {
   );
 };
 
-export const setupAuthHeaderForServiceCalls = (token) => {
-  axios.create({
-    baseURL: "http://localhost:7000",
-    headers: { Authorization: token },
-  });
-};
-
-export const PrivateRoute = ({ path, ...props }) => {
-  const { token } = useSelector((state) => state.loggedInUserInfo);
-  return token ? (
-    <Route {...props} />
-  ) : (
-    <Navigate state={{ from: path }} replace={true} to="/login" />
-  );
-};
-
-const userData = JSON.parse(localStorage.getItem("user")) || {};
-let token = userData.token || null;
 export const instance = axios.create({
-  baseURL: "http://localhost:7000",
-  headers: { Authorization: token },
+  baseURL: "https://social-monks-server.herokuapp.com",
 });
+
+export const setupAuthHeaderForServiceCalls = (token) => {
+  instance.defaults.headers.common["Authorization"] = token;
+};
 
 // export const setupAuthExceptionHandler = (dispatch, logOutUser, navigate) => {
 //   const UNAUTHORIZED = 401;
