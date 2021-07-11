@@ -22,7 +22,7 @@ export const loginUser = createAsyncThunk("auth/login", async (userData) => {
     "http://localhost:7000/auth/login",
     userData
   );
-  console.log("after login userdata", response.data);
+  // console.log("after login userdata", response.data);
   return response.data;
 });
 export const signupUser = createAsyncThunk("auth/signup", async (userData) => {
@@ -75,6 +75,10 @@ const userSlice = createSlice({
       state.loggedInUser = action.payload.user;
       state.token = action.payload.token;
     },
+    [loginUser.rejected]: (state, action) => {
+      state.status = "rejected";
+    },
+
     [signupUser.fulfilled]: (state, action) => {
       state.status = "fulfilled";
     },

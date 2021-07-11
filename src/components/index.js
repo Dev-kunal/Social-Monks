@@ -12,3 +12,4 @@ export { Search } from "./search/Search";
 export { EditProfile } from "./profile/EditProfile";
 export { Followers } from "./profile/Followers";
 export { Following } from "./profile/Following";
+export { Viewpost } from "./post/Viewpost";

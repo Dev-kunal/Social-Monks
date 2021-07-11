@@ -3,6 +3,7 @@ import { MobileNav } from "../index";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPosts } from "./exploreSlice";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 export const Explore = () => {
   const dispatch = useDispatch();
   const { allPosts, status } = useSelector((state) => state.allPosts);
@@ -12,13 +13,21 @@ export const Explore = () => {
       dispatch(getAllPosts(token));
     }
   }, [status, dispatch]);
-
+  const navigate = useNavigate();
   return (
     <div className="explore-page">
       <MobileNav />
       <div className="explore-container">
-        {allPosts.map(({ fileurl }) => (
-          <div className="explore-post">
+        {allPosts.map(({ _id, fileurl }) => (
+          <div
+            key={_id}
+            className="explore-post"
+            onClick={() =>
+              navigate("/viewpost", {
+                state: { postId: _id },
+              })
+            }
+          >
             <img src={fileurl} width="100%" height="100%" alt="img-post" />
           </div>
         ))}

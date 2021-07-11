@@ -12,10 +12,12 @@ import {
 export const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [mesg, setMesg] = useState("");
   const [userData, setUserData] = useState({
     username: "",
     password: "",
   });
+
   const onType = (event) => {
     const { name, value } = event.target;
     setUserData((data) => ({
@@ -23,16 +25,22 @@ export const Login = () => {
       [name]: value,
     }));
   };
+
+  const { status, error } = useSelector((state) => state.loggedInUserInfo);
   const submitForm = async (event) => {
     event.preventDefault();
     let result = await dispatch(loginUser(userData));
-    if (result.payload.token) {
+    if (!result.payload.success) {
+      console.log(result.payload);
+      setMesg(result.payload.message);
+    } else {
       setUserData({
         username: "",
         password: "",
       });
       setupAuthHeaderForServiceCalls(result.payload.token);
       saveUserToLocalStorage(result.payload.user, result.payload.token);
+      console.log(result.payload.token);
       navigate("/");
     }
   };
@@ -67,7 +75,7 @@ export const Login = () => {
           </button>
         </form>
       </div>
-
+      <div className="err-mesg">{mesg}</div>
       <div className="signup-div">
         Don't have an account? <Link to="/signup">Sign up</Link>
       </div>

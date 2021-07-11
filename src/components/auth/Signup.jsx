@@ -11,6 +11,10 @@ export const Signup = () => {
     email: "",
     fullname: "",
   });
+  const [mesg, setMesg] = useState({
+    success: false,
+    mesg: "",
+  });
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const onType = (event) => {
@@ -23,14 +27,18 @@ export const Signup = () => {
   const submitForm = async (event) => {
     event.preventDefault();
     let result = await dispatch(signupUser(userData));
-    if (result.payload.success) {
+    if (!result.payload.success) {
+      console.log(result.payload);
+      setMesg({ success: false, mesg: result.payload.message });
+    } else {
+      setMesg({ success: true, mesg: result.payload.message });
       setUserData({
         username: "",
         fullname: "",
         email: "",
         password: "",
       });
-      navigate("/login");
+      // navigate("/login");
     }
   };
 
@@ -42,7 +50,7 @@ export const Signup = () => {
           <div className="input-div">
             <input
               className="input-line"
-              type="text"
+              type="email"
               id="input-md"
               placeholder="Email"
               name="email"
@@ -79,8 +87,10 @@ export const Signup = () => {
           </div>
           <button className="btn">Sign Up </button>
         </form>
+        <div className={mesg.success ? "success-mesg" : "err-mesg"}>
+          {mesg.mesg}
+        </div>
       </div>
-
       <div className="signup-div">
         Already have an account? <Link to="/login">Log In</Link>
       </div>

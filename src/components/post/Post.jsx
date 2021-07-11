@@ -13,6 +13,7 @@ export const Post = ({
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { loggedInUser } = useSelector((state) => state.loggedInUserInfo);
+
   const isPostLiked = () => {
     return likes.includes(loggedInUser._id);
   };

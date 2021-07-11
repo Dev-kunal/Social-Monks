@@ -12,6 +12,7 @@ import {
   EditProfile,
   Followers,
   Following,
+  Viewpost,
 } from "./components/index";
 import { useEffect } from "react";
 import { Activity } from "./components/activity/Activity";
@@ -45,6 +46,7 @@ export default function App() {
         <PrivateRoute path="/editprofile" element={<EditProfile />} />
         <PrivateRoute path="/followers" element={<Followers />} />
         <PrivateRoute path="/following" element={<Following />} />
+        <PrivateRoute path="/viewpost" element={<Viewpost />} />
       </Routes>
     </div>
   );

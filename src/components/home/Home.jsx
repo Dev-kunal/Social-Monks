@@ -13,7 +13,10 @@ export const Home = () => {
     if (status === "idle") {
       dispatch(loadPosts());
     }
-  }, [status, dispatch]);
+    // return () => {
+    //   dispatch(resetFeed());
+    // };
+  }, [status, dispatch, posts]);
 
   console.log("posts from homepage", posts);
   return (

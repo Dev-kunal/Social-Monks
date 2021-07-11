@@ -94,7 +94,7 @@ export const MobileNav = () => {
         >
           <img
             className="avatar-xs"
-            src={loggedInUser.profileUrl}
+            src={loggedInUser?.profileUrl}
             alt="Avatar"
           />
         </button>
