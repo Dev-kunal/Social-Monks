@@ -7,6 +7,7 @@ const userDataFromLocalStorage =
 
 const initialState = {
   status: "idle",
+  signupStatus: "idle",
   error: null,
   loggedInUser: userDataFromLocalStorage
     ? {
@@ -25,7 +26,7 @@ export const loginUser = createAsyncThunk("auth/login", async (userData) => {
   return response.data;
 });
 export const signupUser = createAsyncThunk("auth/signup", async (userData) => {
-  const response = await axios.post("/auth/signup", userData);
+  const response = await instance.post("/auth/signup", userData);
   console.log(response.data);
   return response.data;
 });
@@ -76,8 +77,11 @@ const userSlice = createSlice({
     [loginUser.rejected]: (state, action) => {
       state.status = "rejected";
     },
+    [signupUser.pending]: (state) => {
+      state.signupStatus = "loading";
+    },
     [signupUser.fulfilled]: (state) => {
-      state.status = "fulfilled";
+      state.signupStatus = "fulfilled";
     },
     [getNotifications.pending]: (state) => {
       state.notificationStatus = "loading";

@@ -8,7 +8,7 @@ import {
   saveUserToLocalStorage,
   setupAuthHeaderForServiceCalls,
 } from "../utils";
-import axios from "axios";
+import Loader from "react-loader-spinner";
 
 export const Login = () => {
   const dispatch = useDispatch();
@@ -18,7 +18,7 @@ export const Login = () => {
     username: "",
     password: "",
   });
-
+  const { status } = useSelector((state) => state.loggedInUserInfo);
   const onType = (event) => {
     const { name, value } = event.target;
     setUserData((data) => ({
@@ -49,6 +49,17 @@ export const Login = () => {
 
   return (
     <div className="login-page">
+      {status === "loading" && (
+        <div className="loader-container">
+          <Loader
+            type="Oval"
+            color="#2bc48a"
+            height={60}
+            width={60}
+            timeout={3000}
+          />
+        </div>
+      )}
       <div className="form">
         <h1 className="brand-name">Social monks</h1>
         <form onSubmit={(event) => submitForm(event)}>
