@@ -14,7 +14,7 @@ import {
   Following,
   Viewpost,
 } from "./components/index";
-import { useEffect } from "react";
+
 import { Activity } from "./components/activity/Activity";
 import {
   PrivateRoute,
