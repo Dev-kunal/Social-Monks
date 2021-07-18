@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 import { instance } from "../utils";
 
 const userDataFromLocalStorage =
@@ -48,7 +47,7 @@ const userSlice = createSlice({
   name: "loggedInUser",
   initialState,
   reducers: {
-    resetloggedInUserInfo: (state) => {
+    logOutUser: (state) => {
       localStorage.removeItem("user");
       state.loggedInUser = null;
       state.token = null;
@@ -94,5 +93,5 @@ const userSlice = createSlice({
 });
 
 export default userSlice.reducer;
-export const { resetloggedInUserInfo, resetProfileImg, resetNotifications } =
+export const { logOutUser, resetProfileImg, resetNotifications } =
   userSlice.actions;

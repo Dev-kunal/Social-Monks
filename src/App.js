@@ -1,5 +1,5 @@
 import "./styles.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import {
   Login,
   Signup,
@@ -19,13 +19,18 @@ import { Activity } from "./components/activity/Activity";
 import {
   PrivateRoute,
   setupAuthHeaderForServiceCalls,
+  setupAuthExceptionHandler,
 } from "./components/utils";
-import { useSelector } from "react-redux";
+import { logOutUser } from "./components/auth/userSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function App() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { token } = useSelector((state) => state.loggedInUserInfo);
   if (token) {
     setupAuthHeaderForServiceCalls(token);
+    setupAuthExceptionHandler(dispatch, logOutUser, navigate);
   }
   return (
     <div className="App">

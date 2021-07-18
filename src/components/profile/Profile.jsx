@@ -12,7 +12,7 @@ import {
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { resetFeed } from "../post/postSlice";
-import { resetloggedInUserInfo } from "../auth/userSlice";
+import { logOutUser } from "../auth/userSlice";
 import { resetAllPosts } from "../explore/exploreSlice";
 import Loader from "react-loader-spinner";
 
@@ -74,7 +74,7 @@ export const Profile = () => {
     dispatch(resetFeed());
     dispatch(resetAllPosts());
     dispatch(resetUserInfo());
-    dispatch(resetloggedInUserInfo());
+    dispatch(logOutUser());
   };
   return (
     <>

@@ -30,24 +30,16 @@ export const setupAuthHeaderForServiceCalls = (token) => {
   instance.defaults.headers.common["Authorization"] = token;
 };
 
-// export const setupAuthExceptionHandler = (dispatch, logOutUser, navigate) => {
-//   const UNAUTHORIZED = 401;
-//   axios.interceptors.response.use(
-//     (response) => response,
-//     (error) => {
-//       if (error?.response?.status === UNAUTHORIZED) {
-//         toast({
-//           position: "bottom-right",
-//           title: `Session Expired`,
-//           description: "Please login again to continue.",
-//           status: "error",
-//           duration: 2000,
-//           isClosable: true,
-//         });
-//         dispatch(logOutUser());
-//         navigate("signin");
-//       }
-//       return Promise.reject(error);
-//     }
-//   );
-// };
+export const setupAuthExceptionHandler = (dispatch, logOutUser, navigate) => {
+  const UNAUTHORIZED = 401;
+  axios.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      if (error?.response?.status === UNAUTHORIZED) {
+        dispatch(logOutUser());
+        navigate("/login");
+      }
+      return Promise.reject(error);
+    }
+  );
+};
