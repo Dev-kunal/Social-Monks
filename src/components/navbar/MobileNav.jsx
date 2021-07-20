@@ -4,11 +4,9 @@ import "./navbar.css";
 
 export const MobileNav = () => {
   const navigate = useNavigate();
-  // const {
-  //   userInfo: { profileUrl },
-  // } = useSelector((state) => state.userInfo);
+
   const { loggedInUser } = useSelector((state) => state.loggedInUserInfo);
-  // console.log("from mobilenav", loggedInUser);
+
   return (
     <div className="mobil-navbar">
       <div className="action-nav">

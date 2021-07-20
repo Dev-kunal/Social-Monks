@@ -18,7 +18,6 @@ const initialState = {
   notificationStatus: "idle",
   notifications: [],
 };
-console.log(initialState.token);
 
 export const loginUser = createAsyncThunk("auth/login", async (userData) => {
   const response = await instance.post("/auth/login", userData);
@@ -26,7 +25,7 @@ export const loginUser = createAsyncThunk("auth/login", async (userData) => {
 });
 export const signupUser = createAsyncThunk("auth/signup", async (userData) => {
   const response = await instance.post("/auth/signup", userData);
-  console.log(response.data);
+
   return response.data;
 });
 
@@ -35,7 +34,7 @@ export const getNotifications = createAsyncThunk(
   async () => {
     try {
       const response = await instance.get("/notifications");
-      console.log("notifications", response.data.notifications);
+
       return response.data;
     } catch (error) {
       console.log(error);
@@ -56,7 +55,6 @@ const userSlice = createSlice({
       state.notificationStatus = "idle";
     },
     resetProfileImg: (state, action) => {
-      console.log("from reset pimg", action.payload);
       state.loggedInUser.profileUrl = action.payload;
     },
     resetNotifications: (state) => {

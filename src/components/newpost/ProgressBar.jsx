@@ -4,7 +4,6 @@ import useStorage from "../../hooks/useStorage";
 
 export const ProgressBar = ({ file, setFile, setuploadedFileurl }) => {
   const { url, progress } = useStorage(file);
-  console.log(url);
 
   useEffect(() => {
     if (url) {

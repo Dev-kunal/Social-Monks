@@ -7,8 +7,6 @@ export const Navbar = () => {
   const navigate = useNavigate();
   const { loggedInUser } = useSelector((state) => state.loggedInUserInfo);
 
-  // console.log("Logged user details (Navbar) => ", loggedInUser);
-
   return (
     <div>
       <div className="navbar-top">

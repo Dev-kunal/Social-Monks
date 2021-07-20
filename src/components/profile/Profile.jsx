@@ -70,7 +70,6 @@ export const Profile = () => {
     }
   };
   const logOut = () => {
-    console.log("Logging out");
     dispatch(resetFeed());
     dispatch(resetAllPosts());
     dispatch(resetUserInfo());

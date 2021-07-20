@@ -25,7 +25,6 @@ export const Followers = () => {
     };
   }, [userInfo.userId, dispatch]);
 
-  console.log("followers from followers page", followers);
   return (
     <div className="followers">
       {followersStatus === "loading" && (

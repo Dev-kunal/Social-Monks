@@ -24,8 +24,6 @@ export const Following = () => {
     };
   }, [userId, dispatch]);
 
-  console.log("following from following page", following);
-  // console.log("userinfo from following page", userInfo);
   return (
     <div className="followers">
       {followingStatus === "loading" && (

@@ -30,7 +30,6 @@ export const Signup = () => {
     event.preventDefault();
     let result = await dispatch(signupUser(userData));
     if (!result.payload.success) {
-      console.log(result.payload);
       setMesg({ success: false, mesg: result.payload.message });
     } else {
       setUserData({

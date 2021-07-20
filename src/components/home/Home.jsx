@@ -16,9 +16,6 @@ export const Home = () => {
       dispatch(loadPosts());
     }
   }, [status, dispatch, posts]);
-
-  console.log("posts from homepage", posts);
-  console.log("token from homepage", token);
   return (
     <div className="home">
       <MobileNav />

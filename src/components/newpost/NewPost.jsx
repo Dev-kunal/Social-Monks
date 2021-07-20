@@ -26,7 +26,6 @@ export const NewPost = () => {
 
   const uploadPost = () => {
     if (uploadedFileurl) {
-      console.log("submit");
       const postData = {
         caption: caption,
         fileurl: uploadedFileurl,
@@ -34,7 +33,7 @@ export const NewPost = () => {
       (async () => {
         try {
           const response = await instance.post("/posts", postData);
-          console.log(response.data);
+
           if (response.data.success) {
             setFile(null);
             setCaption("");

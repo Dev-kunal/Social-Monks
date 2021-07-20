@@ -33,7 +33,6 @@ export const Login = () => {
       payload: { success, message, user, token },
     } = await dispatch(loginUser(userData));
     if (!success) {
-      console.log(token, success);
       setMesg(message);
     } else {
       setUserData({
@@ -42,7 +41,6 @@ export const Login = () => {
       });
       setupAuthHeaderForServiceCalls(token);
       saveUserToLocalStorage(user, token);
-      console.log(token);
       navigate("/");
     }
   };

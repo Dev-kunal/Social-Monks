@@ -21,7 +21,6 @@ export const Viewpost = () => {
     };
   }, [postStatus, dispatch]);
 
-  console.log({ ...post });
   return (
     <div>
       <div className="home">
