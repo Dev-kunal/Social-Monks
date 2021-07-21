@@ -137,7 +137,6 @@ export const Profile = () => {
                     )}
                   </div>
                 )}
-                {console.log("loggedInUserid===>", loggedInUser._id)}
               </div>
             </div>
             <div className="bio">

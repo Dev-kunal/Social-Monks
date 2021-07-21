@@ -24,7 +24,6 @@ export const Search = () => {
     };
   }, []);
   const getUsers = async () => {
-    console.log("cliked");
     const result = await dispatch(getSearchedUsers(inputValue));
     if (result.payload.users.length > 1) {
       setMesg("");

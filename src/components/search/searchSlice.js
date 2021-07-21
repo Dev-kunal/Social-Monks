@@ -14,7 +14,7 @@ export const getSearchedUsers = createAsyncThunk(
     const response = await instance.post("/user/search", {
       searchTerm: value,
     });
-    console.log(response.data);
+
     return response.data;
   }
 );

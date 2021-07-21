@@ -11,7 +11,7 @@ const initialState = {
 export const getAllPosts = createAsyncThunk("explore/allposts", async () => {
   try {
     const response = await instance.get("/user/explore");
-    console.log(response.data.allPosts);
+
     return response.data;
   } catch (error) {
     console.log(error);

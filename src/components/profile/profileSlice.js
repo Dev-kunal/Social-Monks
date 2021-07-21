@@ -16,7 +16,7 @@ const initialState = {
 export const getUser = createAsyncThunk("/user/userInfo", async (userId) => {
   try {
     const response = await instance.get(`/profile/${userId}`);
-    console.log("user profile ", response.data);
+
     return response.data;
   } catch (error) {
     console.log(error);
@@ -28,7 +28,7 @@ export const updateUserProfile = createAsyncThunk(
   async (userUpdate) => {
     try {
       const response = await instance.post("/user/update", userUpdate);
-      console.log("resposne from backend", response.data);
+
       return response.data;
     } catch (error) {
       console.log(error);
@@ -42,7 +42,7 @@ export const getFollowers = createAsyncThunk(
     const response = await instance.post("/user/followers", {
       userId: userId,
     });
-    console.log(response.data.followers);
+
     return response.data;
   }
 );
@@ -53,7 +53,7 @@ export const getFollowing = createAsyncThunk(
     const response = await instance.post("/user/following", {
       userId: userId,
     });
-    console.log("following result", response.data.following);
+
     return response.data;
   }
 );
@@ -65,7 +65,7 @@ export const followUnfollow = createAsyncThunk(
       const response = await instance.post("/followunfollow", {
         followingId: userToFollowUnfollow,
       });
-      console.log(response.data);
+
       return response.data;
     } catch (error) {
       console.log(error);
@@ -89,11 +89,9 @@ const profileSlice = createSlice({
       state.followingStatus = "idle";
     },
     reduceFollowingCount: (state) => {
-      console.log("reduce following");
       state.userInfo.following = state.userInfo.following - 1;
     },
     followUser: (state, action) => {
-      console.log("inside follow user");
       state.userInfo.followers.push(action.payload.followerId);
     },
     resetUserInfo: (state) => {

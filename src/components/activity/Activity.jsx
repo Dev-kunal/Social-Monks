@@ -15,16 +15,14 @@ export const Activity = () => {
     if (notificationStatus === "idle") {
       dispatch(getNotifications());
     }
-    // return () => {
-    //   dispatch(resetNotifications());
-    // };
   }, [notificationStatus, dispatch]);
 
   const userNotifications = notifications?.map((item) => ({
     ...item.sourceUser,
     type: item.notificationType,
   }));
-  console.log("===>", userNotifications);
+
+  console.log(userNotifications);
   return (
     <div style={{ maxWidth: "35rem", margin: "4rem auto" }}>
       {notificationStatus === "loading" && (

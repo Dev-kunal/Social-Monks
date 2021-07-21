@@ -23,7 +23,6 @@ export const loadPosts = createAsyncThunk("/posts/loadposts", async () => {
 
 export const getPost = createAsyncThunk("posts/viewpost", async (postId) => {
   try {
-    console.log("inside get");
     const response = await instance.get(`/posts/${postId}`);
     return response.data;
   } catch (error) {
@@ -82,11 +81,6 @@ export const postSlice = createSlice({
         (post) => post._id === action.payload.likedPost._id
       );
       state.posts[postIndex] = action.payload.likedPost;
-      // state.posts = state.posts.map((post) =>
-      //   post._id === action.payload.likedPost._id
-      //     ? { ...action.payload.likedPost }
-      //     : post
-      // );
       state.post = action.payload.likedPost;
       state.status = "fulfilled";
     },
@@ -96,11 +90,6 @@ export const postSlice = createSlice({
         (post) => post._id === action.payload.unLikedPost._id
       );
       state.posts[postIndex] = action.payload.unLikedPost;
-      // state.posts = state.posts.map((post) =>
-      //   post._id === action.payload.unLikedPost._id
-      //     ? { ...action.payload.unLikedPost }
-      //     : post
-      // );
       state.post = action.payload.unLikedPost;
       state.status = "fulfilled";
     },
