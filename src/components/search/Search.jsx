@@ -24,11 +24,13 @@ export const Search = () => {
     };
   }, []);
   const getUsers = async () => {
-    const result = await dispatch(getSearchedUsers(inputValue));
-    if (result.payload.users.length > 1) {
-      setMesg("");
-    } else {
+    const {
+      payload: { users, success },
+    } = await dispatch(getSearchedUsers(inputValue));
+    if (users.length < 1) {
       setMesg("Searched user not found");
+    } else {
+      setMesg("");
     }
   };
 

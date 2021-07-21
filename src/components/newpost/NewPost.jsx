@@ -38,7 +38,7 @@ export const NewPost = () => {
             setFile(null);
             setCaption("");
             setuploadedFileurl(null);
-            setfileStatus("Uploaded");
+            setfileStatus("Post Uploaded..!");
           }
         } catch (error) {
           setFile(null);
