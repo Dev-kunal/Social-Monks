@@ -63,7 +63,6 @@ export const Profile = () => {
       .length;
   };
   const followOrUnfolllow = async (id) => {
-    console.log("Folllowing..");
     const result = await dispatch(followUnfollow(id));
     if (result.payload.unfollowed) {
       dispatch(reduceFollowingCount());
