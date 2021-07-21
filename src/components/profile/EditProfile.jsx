@@ -26,7 +26,7 @@ export const EditProfile = () => {
   const navigate = useNavigate();
   const { loggedInUser } = useSelector((state) => state.loggedInUserInfo);
   useEffect(() => {
-    if (updateStatus === "idle") {
+    if (updateStatus === "idle" || updateStatus === "fulfilled") {
       setUserData(() => ({
         username: userInfo.username,
         bio: userInfo.bio,

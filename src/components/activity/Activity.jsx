@@ -22,7 +22,6 @@ export const Activity = () => {
     type: item.notificationType,
   }));
 
-  console.log(userNotifications);
   return (
     <div style={{ maxWidth: "35rem", margin: "4rem auto" }}>
       {notificationStatus === "loading" && (

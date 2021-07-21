@@ -56,6 +56,8 @@ const userSlice = createSlice({
     },
     resetProfileImg: (state, action) => {
       state.loggedInUser.profileUrl = action.payload;
+      const user = JSON.parse(localStorage.getItem("user"));
+      user.profileUrl = action.payload;
     },
     resetNotifications: (state) => {
       state.notifications = [];
