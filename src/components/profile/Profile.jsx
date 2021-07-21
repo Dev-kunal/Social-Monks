@@ -17,7 +17,9 @@ import { resetAllPosts } from "../explore/exploreSlice";
 import Loader from "react-loader-spinner";
 
 export const Profile = () => {
-  const { status, userInfo, error } = useSelector((state) => state.userInfo);
+  const { status, userInfo, error, followUnfollowStatus } = useSelector(
+    (state) => state.userInfo
+  );
   const { loggedInUser, token } = useSelector(
     (state) => state.loggedInUserInfo
   );
@@ -61,6 +63,7 @@ export const Profile = () => {
       .length;
   };
   const followOrUnfolllow = async (id) => {
+    console.log("Folllowing..");
     const result = await dispatch(followUnfollow(id));
     if (result.payload.unfollowed) {
       dispatch(reduceFollowingCount());
@@ -78,7 +81,7 @@ export const Profile = () => {
   return (
     <>
       <div className="user-page">
-        {status === "loading" && (
+        {(status === "loading" || followUnfollowStatus === "loading") && (
           <div className="loader-container">
             <Loader
               type="Oval"
@@ -179,7 +182,7 @@ export const Profile = () => {
                     })
                   }
                 >
-                  {following} following
+                  {following > 0 ? following : "0"} following
                 </button>
               </div>
             </div>

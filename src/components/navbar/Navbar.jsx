@@ -91,6 +91,7 @@ export const Navbar = () => {
                 })
               }
             >
+              {console.log(loggedInUser?.profileUrl)}
               <img
                 className="avatar-xs"
                 src={loggedInUser?.profileUrl}

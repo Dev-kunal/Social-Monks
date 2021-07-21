@@ -5,6 +5,7 @@ import { instance } from "../utils";
 const initialState = {
   status: "idle",
   updateStatus: "idle",
+  followUnfollowStatus: "idle",
   followersStatus: "idle",
   followingStatus: "idle",
   userInfo: {},
@@ -139,6 +140,9 @@ const profileSlice = createSlice({
       state.following = action.payload.following;
       state.followingStatus = "fulfilled";
     },
+    [followUnfollow.pending]: (state) => {
+      state.followUnfollowStatus = "loading";
+    },
     [followUnfollow.fulfilled]: (state, action) => {
       if (action.payload.unfollowed) {
         let updatedFollowers = state.userInfo.followers.map((follower) => ({
@@ -146,6 +150,7 @@ const profileSlice = createSlice({
           followStatus: "notfollowing",
         }));
         state.userInfo.followers = updatedFollowers;
+        state.followUnfollowStatus = "fulfilled";
       }
       if (action.payload.followed) {
         let updatedFollowers = state.userInfo.followers.map((follower) => ({
@@ -153,6 +158,7 @@ const profileSlice = createSlice({
           followStatus: "following",
         }));
         state.userInfo.followers = updatedFollowers;
+        state.followUnfollowStatus = "fulfilled";
       }
     },
   },
