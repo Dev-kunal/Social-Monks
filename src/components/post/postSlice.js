@@ -55,10 +55,6 @@ export const postSlice = createSlice({
       state.status = "idle";
       state.posts = null;
     },
-    resetPost: (state) => {
-      state.post = null;
-      state.postStatus = "idle";
-    },
   },
   extraReducers: {
     [loadPosts.pending]: (state) => {
@@ -75,6 +71,9 @@ export const postSlice = createSlice({
     [getPost.fulfilled]: (state, action) => {
       state.post = action.payload.post;
       state.postStatus = "fulfilled";
+    },
+    [getPost.pending]: (state, action) => {
+      state.postStatus = "loading";
     },
     [likePost.fulfilled]: (state, action) => {
       const postIndex = state.posts.findIndex(
@@ -97,4 +96,4 @@ export const postSlice = createSlice({
 });
 
 export default postSlice.reducer;
-export const { resetFeed, resetPost } = postSlice.actions;
+export const { resetFeed } = postSlice.actions;

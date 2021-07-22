@@ -4,7 +4,6 @@ import { ProgressBar } from "../newpost/ProgressBar";
 import { resetProfile, updateUserProfile } from "./profileSlice";
 import { MobileNav } from "..";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { resetProfileImg } from "../auth/userSlice";
 import Loader from "react-loader-spinner";
 
@@ -23,7 +22,7 @@ export const EditProfile = () => {
   );
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+
   const { loggedInUser } = useSelector((state) => state.loggedInUserInfo);
   useEffect(() => {
     if (updateStatus === "idle" || updateStatus === "fulfilled") {
@@ -37,18 +36,19 @@ export const EditProfile = () => {
 
   const updateProfile = async () => {
     const userUpdate = { ...userData, profileUrl: uploadedFileurl };
-    const result = await dispatch(
-      updateUserProfile(userUpdate, loggedInUser.userId)
-    );
-    if (result.payload.success) {
-      dispatch(resetProfileImg(result.payload.updatedUser.profileUrl));
+    const {
+      payload: { updatedUser, success },
+    } = await dispatch(updateUserProfile(userUpdate, loggedInUser.userId));
+    if (success) {
+      dispatch(resetProfileImg(updatedUser.profileUrl));
+      setfileStatus("Profile Updated Succesfully");
+      setuploadedFileurl("");
       setUserData({
         username: "",
         bio: "",
         fullname: "",
         profileUrl: "",
       });
-      setfileStatus("Profile Updated Succesfully");
     }
   };
 
@@ -94,7 +94,7 @@ export const EditProfile = () => {
               <strong>Username</strong>
             </label>
             <input
-              class="input-line"
+              className="input-line"
               type="text"
               name="username"
               onChange={(event) => onType(event)}
@@ -104,7 +104,7 @@ export const EditProfile = () => {
               <strong>full Name</strong>
             </label>
             <input
-              class="input-line"
+              className="input-line"
               type="text"
               name="fullname"
               id="input-md"
@@ -115,7 +115,7 @@ export const EditProfile = () => {
               <strong>Bio</strong>
             </label>
             <input
-              class="input-line"
+              className="input-line"
               type="text"
               name="bio"
               id="input-md"
@@ -133,9 +133,9 @@ export const EditProfile = () => {
             </label>
 
             <div>
-              {" "}
-              {uploadedFileurl && "Profile image added to Update"}
-              {fileStatus && <div className="error">{fileStatus}</div>}
+              {uploadedFileurl && (
+                <div className="mesg">{"profileImage.jpg"}</div>
+              )}
               {file && (
                 <ProgressBar
                   file={file}
@@ -148,6 +148,7 @@ export const EditProfile = () => {
           <button className="btn" type="button" onClick={updateProfile}>
             Update Profile
           </button>
+          {fileStatus && <div className="mesg">{fileStatus}</div>}
         </form>
       </div>
       <MobileNav />

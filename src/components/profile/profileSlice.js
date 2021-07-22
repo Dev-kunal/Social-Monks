@@ -1,4 +1,3 @@
-import axios from "axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { instance } from "../utils";
 
@@ -66,7 +65,6 @@ export const followUnfollow = createAsyncThunk(
       const response = await instance.post("/followunfollow", {
         followingId: userToFollowUnfollow,
       });
-
       return response.data;
     } catch (error) {
       console.log(error);
@@ -86,15 +84,9 @@ const profileSlice = createSlice({
       state.followersStatus = "idle";
     },
     resetFollowing: (state) => {
-      state.following = [];
-      state.followingStatus = "idle";
+      (state.following = []), (state.followingStatus = "idle");
     },
-    reduceFollowingCount: (state) => {
-      state.userInfo.following = state.userInfo.following - 1;
-    },
-    followUser: (state, action) => {
-      state.userInfo.followers.push(action.payload.followerId);
-    },
+
     resetUserInfo: (state) => {
       state.userInfo = {};
       state.followers = [];
@@ -118,14 +110,14 @@ const profileSlice = createSlice({
     [getUser.pending]: (state, action) => {
       state.status = "loading";
     },
-
+    [updateUserProfile.pending]: (state) => {
+      state.updateStatus = "loading";
+    },
     [updateUserProfile.fulfilled]: (state, action) => {
       state.userInfo = action.payload.updatedUser;
       state.updateStatus = "fulfilled";
     },
-    [updateUserProfile.pending]: (state) => {
-      state.updateStatus = "loading";
-    },
+
     [getFollowers.pending]: (state) => {
       state.followersStatus = "loading";
     },
@@ -144,19 +136,28 @@ const profileSlice = createSlice({
       state.followUnfollowStatus = "loading";
     },
     [followUnfollow.fulfilled]: (state, action) => {
+      const loginUserId = JSON.parse(localStorage.getItem("user")).userId;
       if (action.payload.unfollowed) {
-        let updatedFollowers = state.userInfo.followers.map((follower) => ({
-          ...follower,
-          followStatus: "notfollowing",
-        }));
+        let updatedFollowers = state.userInfo.followers.map((follower) =>
+          follower.userId === loginUserId
+            ? {
+                ...follower,
+                followStatus: "notfollowing",
+              }
+            : follower
+        );
         state.userInfo.followers = updatedFollowers;
         state.followUnfollowStatus = "fulfilled";
       }
       if (action.payload.followed) {
-        let updatedFollowers = state.userInfo.followers.map((follower) => ({
-          ...follower,
-          followStatus: "following",
-        }));
+        let updatedFollowers = state.userInfo.followers.map((follower) =>
+          follower.userId === loginUserId
+            ? {
+                ...follower,
+                followStatus: "following",
+              }
+            : follower
+        );
         state.userInfo.followers = updatedFollowers;
         state.followUnfollowStatus = "fulfilled";
       }
@@ -168,7 +169,7 @@ export const {
   resetProfile,
   resetFollowers,
   resetFollowing,
-  reduceFollowingCount,
+  reduceFollowerCount,
   followUser,
   resetUserInfo,
 } = profileSlice.actions;

@@ -1,11 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
+
 import { MobileNav } from "../index";
 import "./profile.css";
 import {
   followUnfollow,
   getUser,
   resetProfile,
-  reduceFollowingCount,
+  reduceFollowerCount,
   followUser,
   resetUserInfo,
 } from "./profileSlice";
@@ -55,48 +56,47 @@ export const Profile = () => {
   const followingOrNot = (followers, myId) => {
     return followers.filter(
       (follower) =>
-        follower.followStatus === "following" && follower.userId === myId
+        follower.userId === myId && follower.followStatus === "following"
     ).length;
   };
   const followersLength = () => {
     return followers.filter((follower) => follower.followStatus === "following")
       .length;
   };
-  const followOrUnfolllow = async (id) => {
-    const result = await dispatch(followUnfollow(id));
-    if (result.payload.unfollowed) {
-      dispatch(reduceFollowingCount());
-    }
-    if (result.payload.followed) {
-      dispatch(followUser(loggedInUser._id));
-    }
+
+  const followOrUnfolllow = (id) => {
+    dispatch(followUnfollow(id));
   };
+
   const logOut = () => {
     dispatch(resetFeed());
     dispatch(resetAllPosts());
     dispatch(resetUserInfo());
     dispatch(logOutUser());
   };
+
   return (
     <>
       <div className="user-page">
         {(status === "loading" || followUnfollowStatus === "loading") && (
-          <div className="loader-container">
-            <Loader
-              type="Oval"
-              color="#2bc48a"
-              height={60}
-              width={60}
-              timeout={3000}
-            />
-          </div>
+          <>
+            <div className="loader-container">
+              <Loader
+                type="Oval"
+                color="#2bc48a"
+                height={60}
+                width={60}
+                timeout={2000}
+              />
+            </div>
+          </>
         )}
 
         {userInfo.posts && (
           <>
             {" "}
             <div className="user-header">
-              <img class="avatar-circle" src={profileUrl} alt="Avatar" />
+              <img className="avatar-circle" src={profileUrl} alt="Avatar" />
               <div className="user-info">
                 <h2 className="username">{username}</h2>
                 {_id === loggedInUser._id ? (
@@ -186,11 +186,8 @@ export const Profile = () => {
               </div>
             </div>
             <div className="explore-container"></div>
-            {/* {posts.map(({ ...props }) => (
-              <Post {...props} />
-            ))} */}
-            {posts.map(({ fileurl }) => (
-              <div className="explore-post">
+            {posts.map(({ fileurl, _id }) => (
+              <div className="explore-post" key={_id}>
                 <img src={fileurl} width="100%" height="100%" alt="img-post" />
               </div>
             ))}

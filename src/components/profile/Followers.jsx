@@ -41,7 +41,7 @@ export const Followers = () => {
       <div className="user-list">
         <ul class="list">
           {followers.length < 1 && "No  Followers"}
-          {followers.map(
+          {followers?.map(
             ({ userId: { _id, username, fullname, profileUrl } }) => (
               <li
                 className="list-item"

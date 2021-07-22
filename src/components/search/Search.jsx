@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getSearchedUsers } from "./searchSlice";
 import { MobileNav } from "../navbar/MobileNav";
 import { useNavigate } from "react-router";
+import Loader from "react-loader-spinner";
+
 export const Search = () => {
   const [inputValue, setInputValue] = useState("");
   const [mesg, setMesg] = useState("");
@@ -36,7 +38,17 @@ export const Search = () => {
 
   return (
     <div className="search-page">
-      {" "}
+      {status === "loading" && (
+        <div className="loader-container">
+          <Loader
+            type="Oval"
+            color="#2bc48a"
+            height={60}
+            width={60}
+            timeout={1000}
+          />
+        </div>
+      )}
       <div className="search-div">
         <h3> Find user</h3>
         <div className="search-holder">
@@ -49,17 +61,13 @@ export const Search = () => {
             onChange={(event) => handleInputChange(event.target.value)}
             required
           />
-          <button
-            className="post-action-btn search-btn"
-            type="button"
-            onClick={getUsers}
-          >
+          <button className="search-btn" type="button" onClick={getUsers}>
             <svg
               aria-label="Search &amp; Explore"
-              class="_8-yf5 "
+              className="_8-yf5 "
               fill="#262626"
               height="20"
-              viewBox="0 0 60 60"
+              viewBox="0 0 54 54"
               width="20"
             >
               <path d="M20 40C9 40 0 31 0 20S9 0 20 0s20 9 20 20-9 20-20 20zm0-37C10.6 3 3 10.6 3 20s7.6 17 17 17 17-7.6 17-17S29.4 3 20 3z"></path>
@@ -69,13 +77,11 @@ export const Search = () => {
         </div>
       </div>
       <div className="user-list">
-        <div style={{ margin: "0 auto", textAlign: "center" }}>
-          {/* {searchedUsers.length < 1 && "User not found with searched username"} */}
-          {mesg}
-        </div>
-        <ul class="list">
+        <div style={{ margin: "0 auto", textAlign: "center" }}>{mesg}</div>
+        <ul className="list">
           {searchedUsers.map(({ _id, username, fullname, profileUrl }) => (
             <li
+              key={_id}
               className="list-item"
               onClick={() =>
                 navigate("/profile", {

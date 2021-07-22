@@ -23,7 +23,7 @@ export const Following = () => {
       dispatch(resetFollowing());
     };
   }, [userId, dispatch]);
-
+  console.log(following);
   return (
     <div className="followers">
       {followingStatus === "loading" && (
@@ -40,7 +40,7 @@ export const Following = () => {
       <div className="user-list">
         <ul class="list">
           {following.length < 1 && "Not Following Anyone"}
-          {following.map(
+          {following?.map(
             ({ followingId: { _id, username, fullname, profileUrl } }) => (
               <li
                 className="list-item"

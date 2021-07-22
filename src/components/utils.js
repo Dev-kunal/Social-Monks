@@ -17,7 +17,7 @@ export const saveUserToLocalStorage = (user, token) => {
     JSON.stringify({
       userId: user._id,
       token: token,
-      profileUrl: user.profileUrl,
+      profileUrl: user.profileUrl ? user.profileUrl : "",
     })
   );
 };
@@ -32,7 +32,7 @@ export const setupAuthHeaderForServiceCalls = (token) => {
 
 export const setupAuthExceptionHandler = (dispatch, logOutUser, navigate) => {
   const UNAUTHORIZED = 401;
-  axios.interceptors.response.use(
+  instance.interceptors.response.use(
     (response) => response,
     (error) => {
       if (error?.response?.status === UNAUTHORIZED) {
