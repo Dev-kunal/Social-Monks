@@ -37,7 +37,7 @@ export const setupAuthExceptionHandler = (dispatch, logOutUser, navigate) => {
     (error) => {
       if (error?.response?.status === UNAUTHORIZED) {
         dispatch(logOutUser());
-        navigate("/login");
+        navigate("login");
       }
       return Promise.reject(error);
     }
