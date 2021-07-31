@@ -53,7 +53,7 @@ export const postSlice = createSlice({
   reducers: {
     resetFeed: (state) => {
       state.status = "idle";
-      state.posts = null;
+      state.posts = [];
     },
   },
   extraReducers: {

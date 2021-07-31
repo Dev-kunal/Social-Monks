@@ -15,7 +15,7 @@ export const Home = () => {
     if (status === "idle") {
       dispatch(loadPosts());
     }
-  }, [status, dispatch, posts]);
+  }, [status, dispatch]);
   return (
     <div className="home">
       <MobileNav />

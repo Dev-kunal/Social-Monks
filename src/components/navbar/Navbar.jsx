@@ -93,7 +93,11 @@ export const Navbar = () => {
             >
               <img
                 className="avatar-xs"
-                src={loggedInUser?.profileUrl}
+                src={
+                  loggedInUser?.profileUrl
+                    ? loggedInUser.profileUrl
+                    : "https://www.pinclipart.com/picdir/middle/379-3797946_software-developer-computer-servers-web-others-web-developer.png"
+                }
                 alt="Avatar"
               />
             </button>
