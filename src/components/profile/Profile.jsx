@@ -166,7 +166,7 @@ export const Profile = () => {
               </div>
               <div className="follow-count">
                 <button
-                  className="post-action-btn"
+                  className="follower-btn"
                   onClick={() =>
                     navigate("/followers", {
                       state: {
@@ -175,12 +175,13 @@ export const Profile = () => {
                     })
                   }
                 >
-                  {followersLength()} Followers
+                  {followersLength()} <br />
+                  Followers
                 </button>
               </div>
               <div className="follow-count">
                 <button
-                  className="post-action-btn"
+                  className="follower-btn"
                   onClick={() =>
                     navigate("/following", {
                       state: {
@@ -189,7 +190,8 @@ export const Profile = () => {
                     })
                   }
                 >
-                  {following > 0 ? following : "0"} following
+                  {following > 0 ? following : "0"} <br />
+                  following
                 </button>
               </div>
             </div>
