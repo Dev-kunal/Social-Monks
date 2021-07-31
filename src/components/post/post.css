@@ -31,12 +31,10 @@
   border: none;
   width: 1.3rem;
   height: 1.3rem;
+  font-size: 1.2rem;
   margin-right: 0.4rem;
   background: transparent;
 }
-/* .post-action-btn i {
-  font-weight: 100;
-} */
 .post-action-btn .fas {
   color: var(--primaryColor);
 }

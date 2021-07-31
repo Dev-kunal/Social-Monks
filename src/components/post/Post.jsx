@@ -64,14 +64,9 @@ export const Post = ({
                 <i className="far fa-heart "></i>
               </button>
             )}
-            <span>
+            <span style={{ marginLeft: "0.2rem" }}>
               {likes.length} {likes.length > 1 ? "Likes" : "Like"}
             </span>
-          </div>
-          <div className="group2">
-            {/* <button className="post-action-btn">
-              <i className="far fa-bookmark"></i>
-            </button> */}
           </div>
         </div>
         <div className="post-caption">
