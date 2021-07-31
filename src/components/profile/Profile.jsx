@@ -96,7 +96,15 @@ export const Profile = () => {
           <>
             {" "}
             <div className="user-header">
-              <img className="avatar-circle" src={profileUrl} alt="Avatar" />
+              <img
+                className="avatar-circle"
+                src={
+                  profileUrl
+                    ? profileUrl
+                    : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+                }
+                alt="Avatar"
+              />
               <div className="user-info">
                 <h2 className="username">{username}</h2>
                 {_id === loggedInUser._id ? (
@@ -106,7 +114,7 @@ export const Profile = () => {
                       onClick={() =>
                         navigate("/editprofile", {
                           state: {
-                            userId: loggedInUser.userId,
+                            userId: loggedInUser?.userId,
                           },
                         })
                       }

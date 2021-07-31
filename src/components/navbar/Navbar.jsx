@@ -86,7 +86,7 @@ export const Navbar = () => {
               onClick={() =>
                 navigate("/profile", {
                   state: {
-                    userId: loggedInUser.userId,
+                    userId: loggedInUser?.userId,
                   },
                 })
               }
@@ -96,7 +96,7 @@ export const Navbar = () => {
                 src={
                   loggedInUser?.profileUrl
                     ? loggedInUser.profileUrl
-                    : "https://www.pinclipart.com/picdir/middle/379-3797946_software-developer-computer-servers-web-others-web-developer.png"
+                    : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
                 }
                 alt="Avatar"
               />
