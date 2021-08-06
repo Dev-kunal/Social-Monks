@@ -12,7 +12,7 @@ export const Home = () => {
   const { token } = useSelector((state) => state.loggedInUserInfo);
   const dispatch = useDispatch();
   useEffect(() => {
-    if (status === "idle") {
+    if (status === "idle" || posts.length < 1) {
       dispatch(loadPosts());
     }
   }, [status, dispatch]);

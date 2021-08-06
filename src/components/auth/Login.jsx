@@ -15,8 +15,8 @@ export const Login = () => {
   const navigate = useNavigate();
   const [mesg, setMesg] = useState("");
   const [userData, setUserData] = useState({
-    username: "",
-    password: "",
+    username: "raj",
+    password: "raj",
   });
   const { status } = useSelector((state) => state.loggedInUserInfo);
   const onType = (event) => {
