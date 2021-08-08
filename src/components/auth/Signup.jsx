@@ -63,7 +63,6 @@ export const Signup = () => {
             <input
               className="input-line"
               type="email"
-              id="input-md"
               placeholder="Email"
               name="email"
               onChange={(event) => onType(event)}
@@ -72,7 +71,6 @@ export const Signup = () => {
             <input
               className="input-line"
               type="text"
-              id="input-md"
               placeholder="FullName"
               name="fullname"
               onChange={(event) => onType(event)}
@@ -81,7 +79,6 @@ export const Signup = () => {
             <input
               className="input-line"
               type="text"
-              id="input-md"
               placeholder="Username"
               name="username"
               onChange={(event) => onType(event)}
@@ -90,7 +87,6 @@ export const Signup = () => {
             <input
               className="input-line"
               type="password"
-              id="input-md"
               placeholder="Password"
               name="password"
               onChange={(event) => onType(event)}

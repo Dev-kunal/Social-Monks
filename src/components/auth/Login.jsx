@@ -66,7 +66,6 @@ export const Login = () => {
               onChange={(event) => onType(event)}
               class="input-line"
               type="text"
-              id="input-md"
               name="username"
               placeholder="Username"
               required
@@ -75,7 +74,6 @@ export const Login = () => {
               onChange={(event) => onType(event)}
               class="input-line"
               type="password"
-              id="input-md"
               name="password"
               placeholder="Password"
               required
