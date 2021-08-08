@@ -2,7 +2,6 @@ import "./login.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
 import { loginUser } from "./userSlice";
 import {
   saveUserToLocalStorage,
@@ -68,6 +67,7 @@ export const Login = () => {
               type="text"
               name="username"
               placeholder="Username"
+              value={userData.username}
               required
             />
             <input
@@ -75,6 +75,7 @@ export const Login = () => {
               class="input-line"
               type="password"
               name="password"
+              value={userData.password}
               placeholder="Password"
               required
             />

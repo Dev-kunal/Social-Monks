@@ -66,6 +66,7 @@ export const Signup = () => {
               placeholder="Email"
               name="email"
               onChange={(event) => onType(event)}
+              value={userData.email}
               required
             />
             <input
@@ -74,6 +75,7 @@ export const Signup = () => {
               placeholder="FullName"
               name="fullname"
               onChange={(event) => onType(event)}
+              value={userData.fullname}
               required
             />
             <input
@@ -82,6 +84,7 @@ export const Signup = () => {
               placeholder="Username"
               name="username"
               onChange={(event) => onType(event)}
+              value={userData.username}
               required
             />
             <input
@@ -90,6 +93,7 @@ export const Signup = () => {
               placeholder="Password"
               name="password"
               onChange={(event) => onType(event)}
+              value={userData.password}
               required
             />
           </div>
