@@ -6,7 +6,7 @@ import { loginUser } from "./userSlice";
 import {
   saveUserToLocalStorage,
   setupAuthHeaderForServiceCalls,
-} from "../utils";
+} from "../../utils";
 import Loader from "react-loader-spinner";
 
 export const Login = () => {

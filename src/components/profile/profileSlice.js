@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { instance } from "../utils";
+import { instance } from "../../utils";
 
 const initialState = {
   status: "idle",

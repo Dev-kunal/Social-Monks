@@ -1,9 +1,8 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { MobileNav } from "../navbar/MobileNav";
 import { ProgressBar } from "./ProgressBar";
 import "./newpost.css";
-import { instance } from "../utils";
+import { instance } from "../../utils";
 
 export const NewPost = () => {
   const [file, setFile] = useState(null);

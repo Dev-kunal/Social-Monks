@@ -9,7 +9,6 @@ import Loader from "react-loader-spinner";
 
 export const Home = () => {
   const { posts, status, error } = useSelector((state) => state.posts);
-  const { token } = useSelector((state) => state.loggedInUserInfo);
   const dispatch = useDispatch();
   useEffect(() => {
     if (status === "idle" || posts.length < 1) {

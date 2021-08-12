@@ -20,7 +20,7 @@ import {
   PrivateRoute,
   setupAuthHeaderForServiceCalls,
   setupAuthExceptionHandler,
-} from "./components/utils";
+} from "./utils";
 import { logOutUser } from "./components/auth/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 
