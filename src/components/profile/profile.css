@@ -1,0 +1,88 @@
+.user-page {
+  height: 100vh;
+  margin-top: 3rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+.user-header {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin: 1rem auto;
+}
+.user-info {
+  min-width: 60%;
+}
+.username {
+  font-weight: 500;
+}
+.plain-action-btn {
+  border: 1px solid var(--borderColor);
+  padding: 0.2rem 2rem;
+  min-width: 60%;
+  border-radius: 0.2rem;
+  margin: 0.2rem auto;
+  background: transparent;
+}
+.avatar-circle {
+  margin: 0;
+  width: 5.5rem;
+  height: 5.5rem;
+  border: 1px solid var(--borderColor);
+}
+.bio {
+  line-height: 1.3rem;
+}
+.follow {
+  margin: 1rem auto;
+  display: flex;
+  padding: 0.4rem 0;
+  width: 100%;
+  border-top: 1px solid var(--borderColor);
+  border-bottom: 1px solid var(--borderColor);
+  justify-content: space-around;
+}
+.follow-count {
+  text-align: center;
+}
+.followers {
+  display: flex;
+  justify-content: center;
+  max-width: 35rem;
+  margin: 4rem auto;
+  border: 1px solid var(--borderColor);
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+.following {
+  background-color: var(--primaryColor);
+  color: white;
+}
+.mesg {
+  margin-top: 0.7rem;
+  text-align: center;
+}
+.follower-btn {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1rem;
+}
+@media screen and (min-width: 767px) {
+  .avatar-circle {
+    width: 7.5rem;
+    height: 7.5rem;
+  }
+  .user-page {
+    margin-top: 7rem;
+    max-width: 35rem;
+    margin: 0 auto;
+  }
+  .user-header {
+    margin: 3rem auto;
+  }
+}

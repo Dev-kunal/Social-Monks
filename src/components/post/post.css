@@ -1,0 +1,40 @@
+.post {
+  padding: 0.4rem 0.1rem;
+  max-width: 35rem;
+  margin: 0 auto;
+}
+.avatar-small {
+  width: 2.3rem;
+  height: 2.3rem;
+  border: 1px solid var(--borderColor);
+  margin: 0;
+  margin-right: 1rem;
+}
+.user {
+  display: flex;
+  padding: 0.2rem 0.9rem;
+  align-items: center;
+}
+.post-actions {
+  padding: 0.2rem 0.9rem;
+  display: flex;
+  justify-content: space-between;
+}
+.post-img {
+  border-radius: 1rem;
+}
+.post-caption {
+  padding: 0rem 0.9rem;
+  line-height: 1.5rem;
+}
+.post-action-btn {
+  border: none;
+  width: 1.3rem;
+  height: 1.3rem;
+  font-size: 1.2rem;
+  margin-right: 0.4rem;
+  background: transparent;
+}
+.post-action-btn .fas {
+  color: var(--primaryColor);
+}
