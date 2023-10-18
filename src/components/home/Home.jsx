@@ -11,7 +11,7 @@ export const Home = () => {
   const { posts, status, error } = useSelector((state) => state.posts);
   const dispatch = useDispatch();
   useEffect(() => {
-    if (status === "idle" || posts.length < 1) {
+    if (status === "idle") {
       dispatch(loadPosts());
     }
   }, [status, dispatch]);

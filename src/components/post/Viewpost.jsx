@@ -31,7 +31,7 @@ export const Viewpost = () => {
           </div>
         )}
         <MobileNav />
-        {post && post._id && <Post {...post} />}
+        {post && post?._id && <Post {...post} />}
       </div>
     </div>
   );
