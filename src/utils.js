@@ -23,8 +23,7 @@ export const saveUserToLocalStorage = (user, token) => {
 };
 
 export const instance = axios.create({
-  // baseURL: "https://social-monks-server.vercel.app",
-  baseURL: "http://localhost:7000",
+  baseURL: "https://social-monks-server.vercel.app",
 });
 
 export const setupAuthHeaderForServiceCalls = (token) => {
